@@ -4,7 +4,7 @@ from ortools.sat.python import cp_model
 
 
 
-def solve_job_shop(jobs_data) -> None:
+def solve_job_shop(jobs_data):
     """Minimal jobshop problem."""
     machines_count = 1 + max(task[0] for job in jobs_data for task in job)
     all_machines = range(machines_count)
@@ -103,16 +103,17 @@ def solve_job_shop(jobs_data) -> None:
             output += sol_line
 
         # Finally print the solution found.
-        print(f"Optimal Schedule Length: {solver.objective_value}")
-        print(output)
+        output += f"Optimal Schedule Length: {solver.objective_value}"
     else:
         print("No solution found.")
 
     # Statistics.
-    print("\nStatistics")
-    print(f"  - conflicts: {solver.num_conflicts}")
-    print(f"  - branches : {solver.num_branches}")
-    print(f"  - wall time: {solver.wall_time}s")
+    output += "\nStatistics"
+    output += f"\n  - conflicts: {solver.num_conflicts}"
+    output += f"\n  - branches : {solver.num_branches}"
+    output += f"\n  - wall time: {solver.wall_time}s"
+
+    return output
 
 def main():
     jobs_data = [[(6, 19), (3, 3), (2, 13), (5, 11), (3, 1), (0, 4)],
@@ -121,8 +122,8 @@ def main():
         [(0, 9), (6, 13), (3, 4), (0, 5), (3, 17), (5, 15)],
         [(8, 9), (8, 8), (2, 1), (0, 17), (3, 5), (2, 14)],
         [(7, 1), (4, 16), (6, 3), (1, 19), (3, 18), (8, 8)]]
-    solve_job_shop(jobs_data)
-    print('done')
+    output = solve_job_shop(jobs_data)
+    
 
 if __name__ == "__main__":
     main()
