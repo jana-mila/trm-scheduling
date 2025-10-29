@@ -63,7 +63,6 @@ def solve_job_shop(jobs_data):
     status = solver.solve(model)
 
     if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
-        print("Solution:")
         # Create one list of assigned tasks per machine.
         assigned_jobs = collections.defaultdict(list)
         for job_id, job in enumerate(jobs_data):
@@ -80,6 +79,7 @@ def solve_job_shop(jobs_data):
 
         # Create per machine output lines.
         output = ""
+        output += "\nSolution:\n"
         for machine in all_machines:
             # Sort by starting time.
             assigned_jobs[machine].sort()
@@ -104,6 +104,7 @@ def solve_job_shop(jobs_data):
 
         # Finally print the solution found.
         output += f"Optimal Schedule Length: {solver.objective_value}"
+        output += f"\nTotal (Unoptimized Schedule Length): {horizon}"
     else:
         print("No solution found.")
 
@@ -123,6 +124,7 @@ def main():
         [(8, 9), (8, 8), (2, 1), (0, 17), (3, 5), (2, 14)],
         [(7, 1), (4, 16), (6, 3), (1, 19), (3, 18), (8, 8)]]
     output = solve_job_shop(jobs_data)
+    print(output)
     
 
 if __name__ == "__main__":
