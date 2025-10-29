@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 import pickle
 from solver import solve_job_shop
-
+from pathlib import Path
 #%%
 # CONFIG
 N = 50  # total instances to create
@@ -17,6 +17,7 @@ min_J = 3 # ensure that we always have more than 2 jobs
 min_T = 3 # ensures that we always have more than 2 tasks for each job
 min_M = 3 # ensures that we always have more than 2 machines
 
+solution_save_dir = f
 #%%
 data_tensors = []
 data_tuples = []
