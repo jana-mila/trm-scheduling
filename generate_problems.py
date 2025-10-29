@@ -5,6 +5,7 @@ import pandas as pd
 import pickle
 from solver import solve_job_shop
 from pathlib import Path
+
 #%%
 # CONFIG
 N = 50  # total instances to create
@@ -17,45 +18,49 @@ min_J = 3 # ensure that we always have more than 2 jobs
 min_T = 3 # ensures that we always have more than 2 tasks for each job
 min_M = 3 # ensures that we always have more than 2 machines
 
-solution_save_dir = f
+solutions_dir = Path('solutions')
+problems_dir = Path('problems')
+solutions_dir.mkdir(exist_ok=True)
+problems_dir.mkdir(exist_ok=True)
+
 #%%
-data_tensors = []
-data_tuples = []
+problem_tensor_all = []
+problem_tuple_all = []
 data_view = []
 for i in range(N):
     j = np.random.randint(min_J, J)
     t = np.random.randint(min_T, T) 
     m = np.random.randint(min_M, M)
     
-    print(f"Case {i} has {m} machines and (jobs, tasks): ({j}, {t})")
+    print(f"Generating problem for case {i} has {m} machines and (jobs, tasks): ({j}, {t})")
     machines = torch.randint(low=0, high=m, size=(j,t))
     durations = torch.randint(low=0, high=D, size=(j,t))
 
-    record_tensor = torch.stack((machines, durations), dim=2)
-    record_list_of_tuples = [[(machines[job_idx, task_idx].item(), durations[job_idx, task_idx].item()) for task_idx in range(t)] for job_idx in range(j)]
+    problem_tensor = torch.stack((machines, durations), dim=2)
+    problem_tuple = [[(machines[job_idx, task_idx].item(), durations[job_idx, task_idx].item()) for task_idx in range(t)] for job_idx in range(j)]  # required as tuple input for Google OR tools
     
-    data_tensors.append(record_tensor)
-    data_tuples.append(record_list_of_tuples)
+    problem_tensor_all.append(problem_tensor)
+    problem_tuple_all.append(problem_tuple)
 
     job_label = [f'job_{i}' for i in np.arange(j)]
     tasks_label = [f'task_{i}' for i in np.arange(t)]
-    df = pd.DataFrame(record_list_of_tuples, index=job_label, columns=tasks_label)
+    df = pd.DataFrame(problem_tuple, index=job_label, columns=tasks_label)
 
     file_name = f'case_{i}_m{m}_j{j}_t{t}'
-    df.to_csv(f"problems/{file_name}.csv")
+    df.to_csv(problems_dir / f"{file_name}.csv")
 
-    solution_output = solve_job_shop(record_list_of_tuples)
-    with open(f"solutions/{file_name}.txt", 'w') as file:
+    solution_output = solve_job_shop(problem_tuple)
+    with open(solutions_dir / f"{file_name}.txt", 'w') as file:
         file.write(solution_output)
 
 
 #%%
-data_tensors_name = "tensors_all.pkl"
-with open(data_tensors_name, 'wb') as file: # 'wb' for write binary
-    pickle.dump(data_tensors, file)
+problem_tensor_all_name = "tensors_all.pkl"
+with open(problem_tensor_all_name, 'wb') as file: # 'wb' for write binary
+    pickle.dump(problem_tensor_all, file)
 
 #%%
-data_tuples_name = "tuples_all.pkl"
-with open(data_tuples_name, 'wb') as file: # 'wb' for write binary
-    pickle.dump(data_tuples, file)
+problem_tuple_all_name = "tuples_all.pkl"
+with open(problem_tuple_all_name, 'wb') as file: # 'wb' for write binary
+    pickle.dump(problem_tuple_all, file)
 # %%

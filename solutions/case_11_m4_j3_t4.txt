@@ -1,0 +1,13 @@
+Machine 0: job_1_task_0   job_2_task_0   job_0_task_1   job_2_task_1   job_2_task_3   job_0_task_3   
+           [0,16]         [16,26]        [26,31]        [26,26]        [44,58]        [58,58]        
+Machine 1: job_1_task_1   
+           [16,23]        
+Machine 2: job_1_task_2   job_2_task_2   job_0_task_2   
+           [23,41]        [41,44]        [44,55]        
+Machine 3: job_0_task_0   job_1_task_3   
+           [0,18]         [41,44]        
+Optimal Schedule Length: 58.0
+Statistics
+  - conflicts: 1
+  - branches : 12
+  - wall time: 0.002471s
