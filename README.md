@@ -10,9 +10,7 @@
 
 ## Data
 
-Use `generate_data.py` to generate the problems and the solutions specifying number of problem instances, number of machines, jobs, and tasks for each instance and setting the maximum duration for each task. 
-
-TODO: dataloaders in correct format for data training for TRM
+Use `generate_data.py` to generate the problems and the solutions specifying number of problem instances, number of machines, jobs, and tasks for each instance and setting the maximum duration for each task. The data will be stored in `data` directory.
 
 ## Model
 
