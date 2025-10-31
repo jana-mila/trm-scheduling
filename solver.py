@@ -1,11 +1,14 @@
 """Minimal jobshop example."""
 import collections
 from ortools.sat.python import cp_model
-
+import torch
 
 
 def solve_job_shop(jobs_data):
     """Minimal jobshop problem."""
+    jobs_tensor = torch.tensor(jobs_data)
+    j, t, _ = jobs_tensor.shape
+
     machines_count = 1 + max(task[0] for job in jobs_data for task in job)
     all_machines = range(machines_count)
     # Computes horizon dynamically as the sum of all durations.
@@ -62,15 +65,18 @@ def solve_job_shop(jobs_data):
     solver = cp_model.CpSolver()
     status = solver.solve(model)
 
+    start_times = torch.full((*jobs_tensor.shape[:-1], 1), -1)
     if status == cp_model.OPTIMAL or status == cp_model.FEASIBLE:
         # Create one list of assigned tasks per machine.
         assigned_jobs = collections.defaultdict(list)
         for job_id, job in enumerate(jobs_data):
             for task_id, task in enumerate(job):
                 machine = task[0]
+                start = solver.value(all_tasks[job_id, task_id].start)
+                start_times[job_id, task_id] = start
                 assigned_jobs[machine].append(
                     assigned_task_type(
-                        start=solver.value(all_tasks[job_id, task_id].start),
+                        start=start,
                         job=job_id,
                         index=task_id,
                         duration=task[1],
@@ -114,7 +120,7 @@ def solve_job_shop(jobs_data):
     output += f"\n  - branches : {solver.num_branches}"
     output += f"\n  - wall time: {solver.wall_time}s"
 
-    return output
+    return output, start_times
 
 def main():
     jobs_data = [[(6, 19), (3, 3), (2, 13), (5, 11), (3, 1), (0, 4)],
@@ -123,8 +129,8 @@ def main():
         [(0, 9), (6, 13), (3, 4), (0, 5), (3, 17), (5, 15)],
         [(8, 9), (8, 8), (2, 1), (0, 17), (3, 5), (2, 14)],
         [(7, 1), (4, 16), (6, 3), (1, 19), (3, 18), (8, 8)]]
-    output = solve_job_shop(jobs_data)
-    print(output)
+    output_txt, start_times = solve_job_shop(jobs_data)
+    print(output_txt)
     
 
 if __name__ == "__main__":

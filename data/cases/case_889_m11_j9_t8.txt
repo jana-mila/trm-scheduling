@@ -1,0 +1,42 @@
+
+ Problem
+         task_0   task_1   task_2  task_3   task_4   task_5   task_6  task_7
+job_0   (2, 3)   (6, 9)   (3, 5)  (6, 6)   (8, 9)   (8, 5)   (2, 3)  (0, 9)
+job_1   (4, 7)  (10, 9)   (8, 0)  (1, 9)   (0, 6)   (3, 0)   (3, 2)  (0, 2)
+job_2  (10, 3)   (7, 8)   (9, 2)  (0, 6)   (7, 7)   (5, 8)   (8, 5)  (4, 7)
+job_3   (0, 7)   (5, 8)   (3, 3)  (3, 6)  (10, 9)   (6, 5)   (7, 1)  (5, 2)
+job_4   (0, 6)   (1, 1)   (2, 1)  (3, 9)   (5, 7)   (6, 8)   (8, 5)  (4, 9)
+job_5   (3, 8)   (5, 6)  (10, 4)  (1, 3)   (0, 9)   (8, 1)   (8, 9)  (6, 2)
+job_6   (0, 8)   (2, 9)   (8, 1)  (3, 9)   (8, 8)   (8, 6)   (2, 9)  (4, 1)
+job_7   (3, 6)   (1, 4)   (0, 7)  (8, 3)   (6, 5)  (10, 8)   (6, 2)  (1, 2)
+job_8   (9, 2)   (1, 6)   (6, 6)  (7, 4)   (6, 4)   (7, 7)  (10, 9)  (2, 0)
+
+Solution:
+Machine 0: job_6_task_0   job_4_task_0   job_7_task_2   job_3_task_0   job_2_task_3   job_5_task_4   job_1_task_4   job_1_task_7   job_0_task_7   
+           [0,8]          [8,14]         [14,21]        [21,28]        [28,34]        [34,43]        [43,49]        [51,53]        [60,69]        
+Machine 1: job_8_task_1   job_7_task_1   job_4_task_1   job_1_task_3   job_5_task_3   job_7_task_7   
+           [2,8]          [8,12]         [14,15]        [16,25]        [25,28]        [44,46]        
+Machine 2: job_0_task_0   job_6_task_1   job_4_task_2   job_6_task_6   job_0_task_6   job_8_task_7   
+           [0,3]          [8,17]         [17,18]        [48,57]        [57,60]        [57,57]        
+Machine 3: job_7_task_0   job_5_task_0   job_0_task_2   job_6_task_3   job_4_task_3   job_3_task_2   job_3_task_3   job_1_task_5   job_1_task_6   
+           [0,6]          [6,14]         [14,19]        [19,28]        [28,37]        [37,40]        [40,46]        [49,49]        [49,51]        
+Machine 4: job_1_task_0   job_6_task_7   job_2_task_7   job_4_task_7   
+           [0,7]          [57,58]        [58,65]        [65,74]        
+Machine 5: job_5_task_1   job_3_task_1   job_4_task_4   job_2_task_5   job_3_task_7   
+           [14,20]        [28,36]        [37,44]        [44,52]        [66,68]        
+Machine 6: job_0_task_1   job_8_task_2   job_0_task_3   job_8_task_4   job_7_task_4   job_7_task_6   job_4_task_5   job_3_task_5   job_5_task_7   
+           [3,12]         [12,18]        [19,25]        [25,29]        [29,34]        [42,44]        [44,52]        [60,65]        [73,75]        
+Machine 7: job_2_task_1   job_8_task_3   job_8_task_5   job_2_task_4   job_3_task_6   
+           [3,11]         [18,22]        [29,36]        [36,43]        [65,66]        
+Machine 8: job_1_task_2   job_6_task_2   job_7_task_3   job_0_task_4   job_6_task_4   job_6_task_5   job_0_task_5   job_2_task_6   job_4_task_6   job_5_task_5   job_5_task_6   
+           [16,16]        [17,18]        [21,24]        [25,34]        [34,42]        [42,48]        [48,53]        [53,58]        [58,63]        [63,64]        [64,73]        
+Machine 9: job_8_task_0   job_2_task_2   
+           [0,2]          [11,13]        
+Machine 10: job_2_task_0   job_1_task_1   job_5_task_2   job_7_task_5   job_8_task_6   job_3_task_4   
+           [0,3]          [7,16]         [20,24]        [34,42]        [42,51]        [51,60]        
+Optimal Schedule Length: 75.0
+Total (Unoptimized Schedule Length): 385
+Statistics
+  - conflicts: 0
+  - branches : 4
+  - wall time: 0.008907s

@@ -1,0 +1,41 @@
+
+ Problem
+         task_0  task_1   task_2   task_3   task_4   task_5   task_6  task_7  task_8
+job_0   (2, 0)  (3, 4)   (3, 2)   (6, 5)  (10, 3)   (5, 0)  (10, 2)  (0, 1)  (7, 5)
+job_1   (5, 0)  (6, 0)  (10, 4)   (9, 4)   (6, 5)   (8, 0)   (6, 7)  (8, 0)  (2, 4)
+job_2   (0, 1)  (7, 9)   (5, 7)  (11, 8)   (2, 4)  (10, 1)   (8, 2)  (0, 7)  (3, 5)
+job_3  (10, 9)  (5, 0)  (12, 3)  (12, 2)   (9, 5)  (12, 7)   (0, 6)  (2, 0)  (0, 6)
+
+Solution:
+Machine 0: job_2_task_0   job_0_task_7   job_3_task_6   job_2_task_7   job_3_task_8   
+           [0,1]          [19,20]        [26,32]        [32,39]        [39,45]        
+Machine 1: 
+           
+Machine 2: job_0_task_0   job_2_task_4   job_3_task_7   job_1_task_8   
+           [0,0]          [25,29]        [32,32]        [35,39]        
+Machine 3: job_0_task_1   job_0_task_2   job_2_task_8   
+           [0,4]          [4,6]          [39,44]        
+Machine 4: 
+           
+Machine 5: job_1_task_0   job_3_task_1   job_2_task_2   job_0_task_5   
+           [0,0]          [9,9]          [10,17]        [17,17]        
+Machine 6: job_1_task_1   job_0_task_3   job_1_task_4   job_1_task_6   
+           [0,0]          [6,11]         [23,28]        [28,35]        
+Machine 7: job_2_task_1   job_0_task_8   
+           [1,10]         [20,25]        
+Machine 8: job_1_task_5   job_2_task_6   job_1_task_7   
+           [28,28]        [30,32]        [35,35]        
+Machine 9: job_3_task_4   job_1_task_3   
+           [14,19]        [19,23]        
+Machine 10: job_3_task_0   job_1_task_2   job_0_task_4   job_0_task_6   job_2_task_5   
+           [0,9]          [9,13]         [13,16]        [17,19]        [29,30]        
+Machine 11: job_2_task_3   
+           [17,25]        
+Machine 12: job_3_task_2   job_3_task_3   job_3_task_5   
+           [9,12]         [12,14]        [19,26]        
+Optimal Schedule Length: 45.0
+Total (Unoptimized Schedule Length): 128
+Statistics
+  - conflicts: 0
+  - branches : 71
+  - wall time: 0.0037080000000000004s
