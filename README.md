@@ -2,7 +2,7 @@
 
 *By: Jana Osea*
 
-*Updated as of October 29, 2025*
+*Updated as of October 31, 2025*
 
 
 **Goal:** Solve Job Shop scheduling with the objective to minimize makespan (total length of time from start of earliest job and end of last job) while adhering to precedence and disjunctive constraints using supervised learning technique particularly the [Tiny Recursive Model](https://arxiv.org/abs/2510.04871) proposed by Alexia.
