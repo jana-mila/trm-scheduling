@@ -183,6 +183,7 @@ wandb.init(
         "batch_size": BATCH_SIZE,
         "optimizer": "AdamW",
         "learning_rate": LR,
+        **model_cfg
         }
     )
 
