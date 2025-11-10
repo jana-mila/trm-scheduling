@@ -3,13 +3,15 @@ import torch
 import numpy as np
 import pandas as pd
 import pickle
-from solver import solve_job_shop
+from utils.solver import solve_job_shop
 from pathlib import Path
 from tqdm import tqdm
 
+
 #%%
 # CONFIG
-N = 1000  # total instances to create
+subset = "val"
+N = 200  # total instances to create
 M = 20  # maximum number of machines for each instance
 J = 20 # maximum number of jobs for each instance
 T = 20  # maximum number of tasks for each job
@@ -20,9 +22,12 @@ min_T = 3 # ensures that we always have more than 2 tasks for each job
 min_M = 3 # ensures that we always have more than 2 machines
 min_D = 1 # ensure that we always nonzero task duration
 
-solutions_dir = Path('data/solutions')
-problems_dir = Path('data/problems')
-cases_dir = Path('data/cases')
+data_dir = Path(__file__).resolve().parent / "data" / f'{subset}'
+data_dir.mkdir(parents=True, exist_ok=True)
+
+solutions_dir = Path(data_dir / 'solutions')
+problems_dir = Path(data_dir / 'problems')
+cases_dir = Path(data_dir / 'cases')
 
 solutions_dir.mkdir(exist_ok=True, parents=True)
 problems_dir.mkdir(exist_ok=True, parents=True)
