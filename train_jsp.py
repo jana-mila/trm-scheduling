@@ -210,6 +210,7 @@ for epoch in range(NUM_EPOCHS):
         optimizer.zero_grad()
         total_loss_for_batch.backward()
         optimizer.step()    
+        
     print(f"Epoch {epoch+1} finished. Final batch avg loss: {total_loss_for_batch.item() / halt_max_steps:.6f}")
 
 
