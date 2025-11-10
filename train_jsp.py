@@ -240,6 +240,11 @@ for epoch in range(NUM_EPOCHS):
 
         train_batch += 1        
         train_epoch_loss += total_loss_for_batch.item()
+
+        if idx % 50 == 0:
+            wandb.log({'current_avg_train_loss': (train_epoch_loss / train_batch) / HALT_MAX_STEPS})
+
+        break
     
     avg_train_epoch_loss = (train_epoch_loss / train_batch) / HALT_MAX_STEPS
     print(f"Epoch {epoch+1} finished. Average training loss: {avg_train_epoch_loss:.6f}")
@@ -296,6 +301,10 @@ for epoch in range(NUM_EPOCHS):
         wandb.log_artifact(artifact)
         print(f"New best model saved at {chkpt_file}")
 
-wand.finish()
+    break
+
+wandb.finish()
 print('Training complete!')
 
+
+# %%
