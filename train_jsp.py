@@ -14,14 +14,20 @@ from pathlib import Path
 
 import torch.optim as optim
 from tqdm import tqdm
-
+import wandb
+from datetime import datetime
 #%%
 # -----------------------------
 # CONFIG
 # -----------------------------
 # --- Hyperparameters ---
-PROBLEMS_DIR = 'data/problems'
-SOLUTIONS_DIR = 'data/solutions'
+TRAIN_PROBLEMS_DIR = 'data/train/problems'
+TRAIN_SOLUTIONS_DIR = 'data/train/solutions'
+VAL_PROBLEMS_DIR = 'data/val/problems'
+VAL_SOLUTIONS_DIR = 'data/val/solutions'
+CHKPT_DIR = 'checkpoints'
+CHKPT_DIR = Path(CHKPT_DIR)
+
 BATCH_SIZE = 4
 NUM_EPOCHS = 10
 LR = 1e-4
@@ -63,7 +69,6 @@ model_cfg = dict(
 
     forward_dtype="float32"
 )
-
 
 #%%
 # -----------------------------
@@ -137,12 +142,24 @@ def custom_collate_fn(batch):
 
 # %%
 # -----------------------------
+# INITIALIZE DATA LOADERS
+# -----------------------------
+print("Starting training...")
+train_dataset = CustomJobShopDataset(TRAIN_PROBLEMS_DIR, TRAIN_SOLUTIONS_DIR)
+train_dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, collate_fn=custom_collate_fn)
+print(f"There are {len(train_dataset)} training job shop problem samples")
+
+val_dataset = CustomJobShopDataset(VAL_PROBLEMS_DIR, VAL_SOLUTIONS_DIR)
+val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=True, collate_fn=custom_collate_fn)
+print(f"There are {len(val_dataset)} validation job shop problem samples")
+
+# %%
+# -----------------------------
 # MODEL, LOSS, OPTIMIZER
 # -----------------------------
 print("Setting up model...")
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(f"Using device: {device}")
-
 
 model = TinyRecursiveReasoningModel_ACTV1(model_cfg)
 loss_fn = nn.MSELoss(reduction='none') # 'none' to apply mask manually
@@ -153,30 +170,41 @@ print(f"Model is as follows: \n{model}")
 
 # %%
 # -----------------------------
-# TRAINING LOOP
+# WANDB
 # -----------------------------
-print("Starting training...")
-dataset = CustomJobShopDataset(PROBLEMS_DIR, SOLUTIONS_DIR)
-dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True, collate_fn=custom_collate_fn)
+now = datetime.now().strftime("%m%d_%H%M")
+exp_name = f"{now}"
+wandb.login()
+wandb.init(
+    project="trm-scheduling",
+    name=exp_name,
+    config={
+        "epochs": NUM_EPOCHS,
+        "batch_size": BATCH_SIZE,
+        "optimizer": "AdamW",
+        "learning_rate": LR,
+        }
+    )
 
 # %%
+# -----------------------------
+# TRAINING
+# -----------------------------
+best_val_loss = 1e10
 for epoch in range(NUM_EPOCHS):
     print(f"\n ---Epoch {epoch+1}/{NUM_EPOCHS} ---")
     model.train()
+    train_epoch_loss = 0.0
+    train_batch = 0
 
-    for batch in tqdm(dataloader):
+    for idx, batch in enumerate(tqdm(train_dataloader)):
         batch = {k: v.to(device) for k, v in batch.items()}
         carry = model.initial_carry(batch)
         total_loss_for_batch = 0
+
         for step in range(HALT_MAX_STEPS):
             carry, outputs = model(carry=carry, batch=batch)
-
-            # This is the *full* output: (B, 416, 1)
-            logits = outputs['logits'] 
-            # full_logits = outputs['logits'] 
-            
-            # # This is the *sliced* output: (B, 400, 1)
-            # logits = full_logits[:, model.config.puzzle_emb_len:] 
+            logits = outputs['logits']             
             labels = batch['labels']
             mask = batch['mask'] # (B, L, 1)
 
@@ -198,19 +226,75 @@ for epoch in range(NUM_EPOCHS):
             is_last_step = (step == HALT_MAX_STEPS - 1)
             halt_target = torch.full_like(outputs['q_halt_logits'], 
                                           float(is_last_step))
-            
             act_loss = act_loss_fn(outputs['q_halt_logits'], halt_target)
 
             # --- 3. Combine Losses ---
             total_step_loss = task_loss + (act_loss * ACT_LOSS_WEIGHT)
-
             total_loss_for_batch += total_step_loss
         
          # Backpropagate the *sum* of losses from all 16 steps
         optimizer.zero_grad()
         total_loss_for_batch.backward()
-        optimizer.step()    
-        
-    print(f"Epoch {epoch+1} finished. Final batch avg loss: {total_loss_for_batch.item() / halt_max_steps:.6f}")
+        optimizer.step()
 
+        train_batch += 1        
+        train_epoch_loss += total_loss_for_batch.item()
+    
+    avg_train_epoch_loss = (train_epoch_loss / train_batch) / HALT_MAX_STEPS
+    print(f"Epoch {epoch+1} finished. Average training loss: {avg_train_epoch_loss:.6f}")
+
+    # -----------------------------
+    # VALIDATE
+    # -----------------------------
+    model.eval()
+    val_epoch_total_loss = 0.0
+    val_batches = 0
+
+    with torch.no_grad():
+        for batch in tqdm(val_dataloader, leave=False, desc="Validating"):
+            batch = {k: v.to(device) for k, v in batch.items()}
+            carry = model.initial_carry(batch)
+            total_val_loss_for_batch = 0
+
+            for step in range(HALT_MAX_STEPS):
+                carry, outputs = model(carry=carry, batch=batch)
+                logits = outputs['logits']
+                labels = batch['labels']
+                mask = batch['mask']
+
+                step_loss_unmasked = loss_fn(logits, labels)
+                step_loss_masked = step_loss_unmasked * mask
+
+                num_real_tokens = mask.sum() + 1e-8 
+                task_loss = step_loss_masked.sum() / num_real_tokens
+
+                is_last_step = (step == HALT_MAX_STEPS - 1)
+                halt_target = torch.full_like(outputs['q_halt_logits'], float(is_last_step))
+                act_loss = act_loss_fn(outputs['q_halt_logits'], halt_target)
+
+                total_step_loss = task_loss + (act_loss * ACT_LOSS_WEIGHT)
+                total_loss_for_batch += total_step_loss
+
+            val_epoch_total_loss += total_loss_for_batch.item()
+            val_batches += 1
+
+    avg_val_loss = (val_epoch_total_loss / val_batches) / HALT_MAX_STEPS
+    print(f"Epoch {epoch+1} Validation loss: {avg_val_loss: .6f}") 
+    wandb.log({'val_loss': avg_val_loss})
+
+    # -----------------------------
+    # CHECKPOINT (IF BEST)
+    # -----------------------------
+    if avg_val_loss < best_val_loss:
+        chckpt_name = f"{exp_name}-epoch-{epoch}-valloss-{avg_val_loss:.4f}.pth"
+        chkpt_file = CHKPT_DIR / chckpt_name
+        torch.save(model.state_dict(), chkpt_file)
+        best_val_loss = avg_val_loss
+        artifact = wandb.Artifact(name=chckpt_name, type='model')
+        artifact.add_file(chkpt_file)
+        wandb.log_artifact(artifact)
+        print(f"New best model saved at {chkpt_file}")
+
+wand.finish()
+print('Training complete!')
 
