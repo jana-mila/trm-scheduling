@@ -16,6 +16,7 @@ import torch.optim as optim
 from tqdm import tqdm
 import wandb
 from datetime import datetime
+
 #%%
 # -----------------------------
 # CONFIG
@@ -31,7 +32,7 @@ CHKPT_DIR = Path(CHKPT_DIR)
 BATCH_SIZE = 4
 NUM_EPOCHS = 10
 LR = 1e-4
-HALT_MAX_STEPS = 16 # This is N_sup, the number of "Deep Supervision" steps
+HALT_MAX_STEPS = 128 # This is N_sup, the number of "Deep Supervision" steps
 ACT_LOSS_WEIGHT = 0.01  # Weight for the ACT (halting) loss
 
 # --- Model & Data Shape Config ---
@@ -41,6 +42,7 @@ MAX_T = 20
 MAX_SEQ_LEN = MAX_J * MAX_T # This is the 'seq_len' for the model
 HIDDEN_SIZE = 256 # Model's internal dimension
 PUZZLE_EMB_DIM = 64 # Dimension for the "task ID" embedding
+EPSILON = 1e-3 # How close the predicted solution to the actual solution to be considered correct
 
 model_cfg = dict(
     batch_size=BATCH_SIZE,
@@ -74,7 +76,6 @@ model_cfg = dict(
 # -----------------------------
 # DATASET AND DATALOADER
 # -----------------------------
-
 class CustomJobShopDataset(Dataset):
     def __init__(self, problems_dir, solutions_dir, transform=None):
         self.problems_dir = Path(problems_dir)
@@ -140,6 +141,14 @@ def custom_collate_fn(batch):
         'puzzle_identifiers': torch.stack(identifiers)
     }
 
+#%%
+def is_solution_close(y_hat: torch.Tensor, y_true: torch.Tensor, mask: torch.Tensor, epsilon: float) -> torch.Tensor:
+    abs_diff = torch.abs(y_hat - y_true)
+    is_close = (abs_diff < epsilon)
+    is_good = (is_close | ~mask)
+    # reduces shape from [B, L, 1] -> [B]
+    return is_good.all(dim=(1,2))
+
 # %%
 # -----------------------------
 # INITIALIZE DATA LOADERS
@@ -147,11 +156,13 @@ def custom_collate_fn(batch):
 print("Starting training...")
 train_dataset = CustomJobShopDataset(TRAIN_PROBLEMS_DIR, TRAIN_SOLUTIONS_DIR)
 train_dataloader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, collate_fn=custom_collate_fn)
-print(f"There are {len(train_dataset)} training job shop problem samples")
+num_train_problems = len(train_dataset)
+print(f"There are {num_train_problems} training job shop problem samples")
 
 val_dataset = CustomJobShopDataset(VAL_PROBLEMS_DIR, VAL_SOLUTIONS_DIR)
 val_dataloader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=True, collate_fn=custom_collate_fn)
-print(f"There are {len(val_dataset)} validation job shop problem samples")
+num_val_problems = len(val_dataset)
+print(f"There are {num_val_problems} validation job shop problem samples")
 
 # %%
 # -----------------------------
@@ -196,6 +207,7 @@ for epoch in range(NUM_EPOCHS):
     print(f"\n ---Epoch {epoch+1}/{NUM_EPOCHS} ---")
     model.train()
     train_epoch_loss = 0.0
+    train_total_correct = 0
     train_batch = 0
 
     for idx, batch in enumerate(tqdm(train_dataloader)):
@@ -205,12 +217,12 @@ for epoch in range(NUM_EPOCHS):
 
         for step in range(HALT_MAX_STEPS):
             carry, outputs = model(carry=carry, batch=batch)
-            logits = outputs['logits']             
-            labels = batch['labels']
+            y_hat = outputs['logits']             
+            y_true = batch['labels']
             mask = batch['mask'] # (B, L, 1)
 
             # --- 1. Calculate Main Task Loss (Regression) ---
-            step_loss_unmasked = loss_fn(logits, labels)
+            step_loss_unmasked = loss_fn(y_hat, y_true)
             step_loss_masked = step_loss_unmasked * mask
             
             # Add a small epsilon to prevent division by zero if a batch has no real tokens
@@ -220,40 +232,36 @@ for epoch in range(NUM_EPOCHS):
 
             # --- 2. Calculate ACT Loss (Halting) ---
             # We want the model to halt when its answer is "good enough"
-            # For regression, "good enough" is complex. A simpler target
-            # is to just train it to halt on the *last step*.
-            
-            # Target is 0 (don't halt) for all steps except the last
-            is_last_step = (step == HALT_MAX_STEPS - 1)
-            halt_target = torch.full_like(outputs['q_halt_logits'], 
-                                          float(is_last_step))
+            # For regression, "good enough" is complex, we use absolute difference.
+            is_solution_correct = is_solution_close(y_hat, y_true, mask, epsilon=EPSILON)
+            halt_target = is_solution_correct.float()
             act_loss = act_loss_fn(outputs['q_halt_logits'], halt_target)
 
             # --- 3. Combine Losses ---
             total_step_loss = task_loss + (act_loss * ACT_LOSS_WEIGHT)
             total_loss_for_batch += total_step_loss
         
-         # Backpropagate the *sum* of losses from all 16 steps
+        # Backpropagate the *sum* of losses from all 16 steps
         optimizer.zero_grad()
         total_loss_for_batch.backward()
         optimizer.step()
 
-        train_batch += 1        
+        train_batch += 1  
+        train_total_correct += is_solution_correct.sum().item()
         train_epoch_loss += total_loss_for_batch.item()
 
-        if idx % 50 == 0:
-            wandb.log({'current_avg_train_loss': (train_epoch_loss / train_batch) / HALT_MAX_STEPS})
 
-        break
-    
     avg_train_epoch_loss = (train_epoch_loss / train_batch) / HALT_MAX_STEPS
+    train_accuracy = train_total_correct / num_train_problems
     print(f"Epoch {epoch+1} finished. Average training loss: {avg_train_epoch_loss:.6f}")
+    print(f"Epoch {epoch+1} finished. Total number of correct solutions: {train_total_correct}/{num_train_problems}")
 
     # -----------------------------
     # VALIDATE
     # -----------------------------
     model.eval()
     val_epoch_total_loss = 0.0
+    val_total_correct = 0
     val_batches = 0
 
     with torch.no_grad():
@@ -264,44 +272,52 @@ for epoch in range(NUM_EPOCHS):
 
             for step in range(HALT_MAX_STEPS):
                 carry, outputs = model(carry=carry, batch=batch)
-                logits = outputs['logits']
-                labels = batch['labels']
+                y_hat = outputs['logits']
+                y_true = batch['labels']
                 mask = batch['mask']
 
-                step_loss_unmasked = loss_fn(logits, labels)
+                step_loss_unmasked = loss_fn(y_hat, y_true)
                 step_loss_masked = step_loss_unmasked * mask
 
                 num_real_tokens = mask.sum() + 1e-8 
                 task_loss = step_loss_masked.sum() / num_real_tokens
 
-                is_last_step = (step == HALT_MAX_STEPS - 1)
-                halt_target = torch.full_like(outputs['q_halt_logits'], float(is_last_step))
+                is_solution_correct = is_solution_close(y_hat, y_true, mask, epsilon=EPSILON)
+                halt_target = is_solution_correct.float()
                 act_loss = act_loss_fn(outputs['q_halt_logits'], halt_target)
 
                 total_step_loss = task_loss + (act_loss * ACT_LOSS_WEIGHT)
                 total_loss_for_batch += total_step_loss
-
+            
+            val_total_correct += is_solution_correct.sum().item()
             val_epoch_total_loss += total_loss_for_batch.item()
             val_batches += 1
 
-    avg_val_loss = (val_epoch_total_loss / val_batches) / HALT_MAX_STEPS
-    print(f"Epoch {epoch+1} Validation loss: {avg_val_loss: .6f}") 
-    wandb.log({'val_loss': avg_val_loss})
+    val_avg_loss = (val_epoch_total_loss / val_batches) / HALT_MAX_STEPS
+    val_accuracy = val_total_correct / num_val_problems
+    print(f"Epoch {epoch+1} Validation loss: {val_avg_loss: .6f}") 
+    print(f"Epoch {epoch+1} Validation total correct solutions: {val_total_correct} /  {num_val_problems}")
+    
+    wandb.log({
+        'train_loss_epoch': avg_train_epoch_loss,
+        'val_loss_epoch': val_avg_loss,
+        'train_accuracy': train_accuracy,
+        'val_accuracy': val_accuracy
+    }, step=epoch)
 
     # -----------------------------
     # CHECKPOINT (IF BEST)
     # -----------------------------
-    if avg_val_loss < best_val_loss:
-        chckpt_name = f"{exp_name}-epoch-{epoch}-valloss-{avg_val_loss:.4f}.pth"
+    if val_avg_loss < best_val_loss:
+        chckpt_name = f"{exp_name}-epoch-{epoch}-valloss-{val_avg_loss:.4f}.pth"
         chkpt_file = CHKPT_DIR / chckpt_name
         torch.save(model.state_dict(), chkpt_file)
-        best_val_loss = avg_val_loss
+        best_val_loss = val_avg_loss
         artifact = wandb.Artifact(name=chckpt_name, type='model')
         artifact.add_file(chkpt_file)
         wandb.log_artifact(artifact)
         print(f"New best model saved at {chkpt_file}")
 
-    break
 
 wandb.finish()
 print('Training complete!')
