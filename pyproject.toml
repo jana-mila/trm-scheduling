@@ -1,0 +1,16 @@
+[project]
+name = "trm-scheduling"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "einops>=0.8.1",
+    "numpy>=2.2.6",
+    "ortools>=9.14.6206",
+    "pandas>=2.3.3",
+    "pydantic>=2.12.4",
+    "torch>=2.9.1",
+    "tqdm>=4.67.1",
+    "wandb>=0.23.0",
+]
