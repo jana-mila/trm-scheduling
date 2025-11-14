@@ -197,6 +197,7 @@ wandb.init(
         **model_cfg
         }
     )
+wandb.watch(model, log="all", log_freq=100)
 
 # %%
 # -----------------------------
