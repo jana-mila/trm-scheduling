@@ -1,0 +1,195 @@
+/var/spool/slurmd/job8161914/slurm_script: line 15: SLURM_SUBMIT_DIR: command not found
+Running from 
+[=== Module python/3.10 loaded ===]
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+wandb: Currently logged in as: jana-mila (jana-mila-mila) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: setting up run kq58hpnz
+wandb: Tracking run with wandb version 0.23.0
+wandb: Run data is saved locally in ./wandb/run-20251119_223203-kq58hpnz
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run bigger_model_10k_1119_2232
+wandb: ⭐️ View project at https://wandb.ai/jana-mila-mila/trm-dev
+wandb: 🚀 View run at https://wandb.ai/jana-mila-mila/trm-dev/runs/kq58hpnz
+Configuration:/nproject_name: trm-scheduling
+run_name: bigger_model_10k_${now:%m%d_%H%M}
+checkpoint_dir: checkpoints/
+resume_from: null
+batch_size: 4
+lr: 0.0001
+num_epochs: 1000
+act_loss_weight: 0.01
+epsilon: 0.5
+data:
+  train_problems_dir: data/train/10000/problems
+  train_solutions_dir: data/train/10000/solutions
+  val_problems_dir: data/val/problems
+  val_solutions_dir: data/val/solutions
+  num_workers: 4
+model:
+  trm_model:
+    batch_size: ${batch_size}
+    seq_len: 400
+    puzzle_emb_ndim: 32
+    num_puzzle_identifiers: 1
+    vocab_size: 0
+    puzzle_emb_len: 16
+    H_cycles: 3
+    L_cycles: 6
+    L_layers: 4
+    H_layers: 0
+    hidden_size: 512
+    expansion: 2.0
+    num_heads: 8
+    pos_encodings: rope
+    halt_max_steps: 16
+    halt_exploration_prob: 0.0
+    no_ACT_continue: true
+    forward_dtype: float32
+trainer:
+  max_epochs: ${num_epochs}
+  accelerator: auto
+  devices: 1
+  log_every_n_steps: 10
+  enable_checkpointing: true
+
+Initializing DataModule...
+Initializing LightningModule
+TinyRecursiveModelJobShop(
+  (model): TinyRecursiveReasoningModel_ACTV1(
+    (inner): TinyRecursiveReasoningModel_ACTV1_Inner(
+      (input_proj): CastedLinear()
+      (lm_head): CastedLinear()
+      (q_head): CastedLinear()
+      (puzzle_emb): CastedSparseEmbedding()
+      (rotary_emb): RotaryEmbedding()
+      (L_level): TinyRecursiveReasoningModel_ACTV1ReasoningModule(
+        (layers): ModuleList(
+          (0-3): 4 x TinyRecursiveReasoningModel_ACTV1Block(
+            (self_attn): Attention(
+              (qkv_proj): CastedLinear()
+              (o_proj): CastedLinear()
+            )
+            (mlp): SwiGLU(
+              (gate_up_proj): CastedLinear()
+              (down_proj): CastedLinear()
+            )
+          )
+        )
+      )
+    )
+  )
+  (loss_fn): MSELoss()
+  (act_loss_fn): BCEWithLogitsLoss()
+)
+Initializing Trainer...
+Starting training...
+Error executing job with overrides: []
+Traceback (most recent call last):
+  File "/home/mila/o/oseaj/projects/trm-scheduling/train.py", line 48, in train
+    trainer.fit(
+  File "/home/mila/o/oseaj/projects/trm-scheduling/.venv/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 560, in fit
+    call._call_and_handle_interrupt(
+  File "/home/mila/o/oseaj/projects/trm-scheduling/.venv/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py", line 49, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/mila/o/oseaj/projects/trm-scheduling/.venv/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 598, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+  File "/home/mila/o/oseaj/projects/trm-scheduling/.venv/lib/python3.10/site-packages/pytorch_lightning/trainer/trainer.py", line 973, in _run
+    call._call_setup_hook(self)  # allow user to set up LightningModule in accelerator environment
+  File "/home/mila/o/oseaj/projects/trm-scheduling/.venv/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py", line 108, in _call_setup_hook
+    _call_lightning_datamodule_hook(trainer, "setup", stage=fn)
+  File "/home/mila/o/oseaj/projects/trm-scheduling/.venv/lib/python3.10/site-packages/pytorch_lightning/trainer/call.py", line 199, in _call_lightning_datamodule_hook
+    return fn(*args, **kwargs)
+  File "/home/mila/o/oseaj/projects/trm-scheduling/src/datamodule.py", line 70, in setup
+    self.train_dataset = CustomJobShopDataset(self.cfg.train_problems_dir, self.cfg.train_solutions_dir)
+  File "/home/mila/o/oseaj/projects/trm-scheduling/src/datamodule.py", line 18, in __init__
+    assert self.num_problems == len(self.solutions_files), "Problem and solution file count mismatch"
+AssertionError: Problem and solution file count mismatch
+
+Set the environment variable HYDRA_FULL_ERROR=1 for a complete stack trace.
+[1;34mwandb[0m: 
+[1;34mwandb[0m: 🚀 View run [33mbigger_model_10k_1119_2232[0m at: [34m[0m
+
+======== GPU REPORT ========
+
+==============NVSMI LOG==============
+
+Timestamp                                 : Wed Nov 19 22:32:07 2025
+Driver Version                            : 580.95.05
+CUDA Version                              : 13.0
+
+Attached GPUs                             : 1
+GPU 00000000:89:00.0
+    Accounting Mode                       : Enabled
+    Accounting Mode Buffer Size           : 4000
+    Accounted Processes
+        Process ID                        : 3170376
+            GPU Utilization               : 0 %
+            Memory Utilization            : 0 %
+            Max memory usage              : 164 MiB
+            Time                          : 5838 ms
+            Is Running                    : 0
+
+Wed Nov 19 22:32:07 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Quadro RTX 8000                On  |   00000000:89:00.0 Off |                    0 |
+| 34%   31C    P2             67W /  260W |       1MiB /  46080MiB |      2%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+srun: error: cn-a009: task 0: Exited with exit code 1
+srun: Terminating StepId=8161914.0
+
+======== GPU REPORT ========
+
+==============NVSMI LOG==============
+
+Timestamp                                 : Wed Nov 19 22:32:07 2025
+Driver Version                            : 580.95.05
+CUDA Version                              : 13.0
+
+Attached GPUs                             : 1
+GPU 00000000:89:00.0
+    Accounting Mode                       : Enabled
+    Accounting Mode Buffer Size           : 4000
+    Accounted Processes
+        Process ID                        : 3170376
+            GPU Utilization               : 0 %
+            Memory Utilization            : 0 %
+            Max memory usage              : 164 MiB
+            Time                          : 5838 ms
+            Is Running                    : 0
+
+Wed Nov 19 22:32:07 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Quadro RTX 8000                On  |   00000000:89:00.0 Off |                    0 |
+| 34%   31C    P2             67W /  260W |       1MiB /  46080MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
