@@ -2,3 +2,8 @@ __pycache__/
 archive/
 venv/
 wandb/
+.vscode/
+scratch/
+data/
+checkpoints/
+.venv/
