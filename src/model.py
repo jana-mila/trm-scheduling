@@ -47,6 +47,10 @@ class TinyRecursiveModelJobShop(pl.LightningModule):
             total_step_loss = task_loss + (self.hparams.act_loss_weight * act_loss)
             total_loss_for_batch += total_step_loss
 
+            if torch.all(carry.halted):
+                print(f"Batch halted early at step {step + 1}") # Optional: for debugging
+                break
+
         avg_loss = total_loss_for_batch  / halt_max_steps
         accuracy = is_solution_correct.sum() / len(batch['inputs'])
 
