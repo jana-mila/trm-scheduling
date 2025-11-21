@@ -8,7 +8,7 @@ from pytorch_lightning.callbacks import ModelCheckpoint
 from src.datamodule import JobShopDataModule
 from src.model import TinyRecursiveModelJobShop
 
-@hydra.main(version_base=None, config_path="configs/v1", config_name="default")
+@hydra.main(version_base=None, config_path="configs/v2", config_name="default")
 def train(cfg: DictConfig):
 
     print(f"Configuration:/n{OmegaConf.to_yaml(cfg)}")

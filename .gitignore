@@ -7,3 +7,5 @@ scratch/
 checkpoints/
 .venv/
 logs/
+notebooks/
+train.log
