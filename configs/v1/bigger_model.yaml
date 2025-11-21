@@ -6,7 +6,7 @@ defaults:
 
 
 # Overrides
-run_name: "bigger_model_${now:%m%d_%H%M}"
+run_name: "bigger_model_v1_${now:%m%d_%H%M}"
 batch_size: 4     # Smaller to accomodate for larger batch size
 model:
   trm_model:

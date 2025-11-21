@@ -1,8 +1,8 @@
 # @package _global_
 
 # Project & Run Config
-project_name: "trm-dev"
-run_name: "default_v2_${now:%m%d_%H%M}"
+project_name: "trm-scheduling"
+run_name: "default-${now:%m%d_%H%M}"
 checkpoint_dir: 'checkpoints/'
 resume_from: null
 
@@ -17,10 +17,10 @@ epsilon: 0.5
 
 # Data Config
 data:
-  train_problems_dir: 'data/v2/train/1000/problems'
-  train_solutions_dir: 'data/v2/train/1000/solutions'
-  val_problems_dir: 'data/v2/val/300/problems'
-  val_solutions_dir: 'data/v2/val/300/solutions'
+  train_problems_dir: 'data/train/1000/problems'
+  train_solutions_dir: 'data/train/1000/solutions'
+  val_problems_dir: 'data/val/problems'
+  val_solutions_dir: 'data/val/solutions'
   num_workers: 4
 
 # Model Config
@@ -28,7 +28,6 @@ model:
   trm_model:
     batch_size: ${batch_size}   # Inherits batch_size from above
     seq_len: 400                # (MAX_J * MAX_T)
-    input_feature_dim: 4        # This is what makes version 1 and 2 different. It's 2 for v1 and 4 for v2
     puzzle_emb_ndim: 32         # Size of the task ID vector
     num_puzzle_identifiers: 1
     vocab_size: 0
@@ -54,7 +53,7 @@ model:
 trainer:
   max_epochs: ${num_epochs}
   accelerator: "auto"
-  devices: 1  # TODO make this dynamic
+  devices: 1
   log_every_n_steps: 10
   enable_checkpointing: True
 

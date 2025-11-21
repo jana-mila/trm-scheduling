@@ -6,9 +6,9 @@ defaults:
 
 
 # Overrides
-run_name: "default_10k_${now:%m%d_%H%M}"
+run_name: "default_v1_10k_${now:%m%d_%H%M}"
 
 # Data Config
 data:
-  train_problems_dir: 'data/train/10000/problems'
-  train_solutions_dir: 'data/train/10000/solutions'
+  train_problems_dir: 'data/v1/train/10000/problems'
+  train_solutions_dir: 'data/v1/train/10000/solutions'
