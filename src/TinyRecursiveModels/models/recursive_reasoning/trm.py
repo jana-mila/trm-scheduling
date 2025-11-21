@@ -18,9 +18,9 @@ class TinyRecursiveReasoningModel_ACTV1InnerCarry:
     z_H: torch.Tensor
     z_L: torch.Tensor
 
-    # ---
+    # =============================
     # MODIFICATION: added to
-    # ---
+    # =============================
     def to(self, device):
         """Moves all internal tensors to the specified device."""
         
@@ -29,7 +29,7 @@ class TinyRecursiveReasoningModel_ACTV1InnerCarry:
         self.z_L = self.z_L.to(device)
         # Return self to allow for chaining
         return self
-
+    # ============================= END OF MODIFICATION =============================
 
 @dataclass
 class TinyRecursiveReasoningModel_ACTV1Carry:
@@ -40,9 +40,9 @@ class TinyRecursiveReasoningModel_ACTV1Carry:
     
     current_data: Dict[str, torch.Tensor]
 
-    # ---
+    # =============================
     # MODIFICATION: added to
-    # ---
+    # =============================
     def to(self, device):
         """Moves all internal tensors to the specified device."""
         
@@ -58,11 +58,12 @@ class TinyRecursiveReasoningModel_ACTV1Carry:
         
         # Return self to allow for chaining
         return self
-
+    # ============================= END OF MODIFICATION =============================
 
 class TinyRecursiveReasoningModel_ACTV1Config(BaseModel):
     batch_size: int
     seq_len: int
+    input_feature_dim: int          # MODIFICATION: allows to change the number of inputs
     puzzle_emb_ndim: int = 0
     num_puzzle_identifiers: int
     vocab_size: int
@@ -157,20 +158,20 @@ class TinyRecursiveReasoningModel_ACTV1_Inner(nn.Module):
         self.embed_scale = math.sqrt(self.config.hidden_size)
         embed_init_std = 1.0 / self.embed_scale
 
-        # ---
-        # MODIFICATION #1: Replaced Classification layers with Regression layers
-        # ---
+        # =============================
+        # MODIFICATION: Replaced Classification layers with Regression layers
+        # =============================
         # DELETED: self.embed_tokens = CastedEmbedding(...)
         # DELETED: self.lm_head      = CastedLinear(..., self.config.vocab_size, ...)
         # self.embed_tokens = CastedEmbedding(self.config.vocab_size, self.config.hidden_size, init_std=embed_init_std, cast_to=self.forward_dtype)
         # self.lm_head      = CastedLinear(self.config.hidden_size, self.config.vocab_size, bias=False)
         
         # Our input is (MachineID, Duration), so 2 features
-        self.input_proj = CastedLinear(4, self.config.hidden_size, bias=False)  # TODO expose this in the config to change
+        self.input_proj = CastedLinear(self.config.input_feature_dim, self.config.hidden_size, bias=False)  # TODO expose this in the config to change
 
         # Our output is (StartTime), so 1 feature
         self.lm_head      = CastedLinear(self.config.hidden_size, 1, bias=False)
-        # --- END OF MODIFICATION #1 ---
+        # ============================= END OF MODIFICATION =============================
 
         self.q_head       = CastedLinear(self.config.hidden_size, 2, bias=True)
 
@@ -204,16 +205,16 @@ class TinyRecursiveReasoningModel_ACTV1_Inner(nn.Module):
             self.q_head.bias.fill_(-5)  # type: ignore
 
     def _input_embeddings(self, input: torch.Tensor, puzzle_identifiers: torch.Tensor):
-        # ---
-        # MODIFICATION #2: Use the new input_proj layer
-        # ---
+        # =============================
+        # MODIFICATION: Use the new input_proj layer
+        # =============================
         # DELETED: embedding = self.embed_tokens(input.to(torch.int32))
         # Token embedding
         # embedding = self.embed_tokens(input.to(torch.int32))
         
         # Project our (B, L, 2) input to (B, L, D)
         embedding = self.input_proj(input.to(self.forward_dtype))
-        # --- END OF MODIFICATION #2 ---
+        # ============================= END OF MODIFICATION =============================
 
         # Puzzle embeddings
         if self.config.puzzle_emb_ndim > 0:
