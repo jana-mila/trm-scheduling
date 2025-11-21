@@ -1,0 +1,56 @@
+
+Problem
+         task_0   task_1   task_2   task_3   task_4    task_5    task_6
+job_0    (9, 8)   (9, 8)   (2, 1)  (9, 10)  (11, 5)   (11, 5)   (10, 3)
+job_1   (11, 8)   (5, 3)  (1, 10)   (8, 4)   (6, 7)    (8, 3)    (7, 5)
+job_2    (5, 5)   (3, 7)  (8, 10)   (4, 3)   (1, 3)    (3, 9)   (10, 5)
+job_3    (8, 1)   (1, 6)   (3, 4)  (3, 10)   (5, 6)    (2, 2)    (0, 1)
+job_4    (4, 9)   (4, 6)  (5, 10)   (4, 6)   (7, 9)    (1, 9)  (11, 10)
+job_5    (5, 5)   (4, 1)   (2, 4)   (2, 5)   (6, 8)   (11, 2)    (3, 3)
+job_6    (8, 2)   (3, 5)   (3, 1)   (6, 4)   (1, 9)    (7, 3)   (11, 1)
+job_7    (1, 4)   (8, 3)   (0, 7)   (8, 4)   (4, 3)   (11, 6)   (10, 9)
+job_8   (6, 10)   (0, 7)   (0, 2)  (8, 10)   (4, 9)    (5, 2)   (9, 10)
+job_9    (3, 2)   (9, 5)   (7, 8)  (11, 1)  (10, 8)   (10, 2)   (10, 4)
+job_10   (9, 4)   (5, 5)   (2, 1)   (6, 7)   (7, 4)    (5, 4)    (4, 9)
+job_11   (6, 1)  (4, 10)  (10, 4)   (1, 2)  (11, 1)    (0, 4)    (0, 3)
+job_12   (7, 2)   (7, 6)   (8, 7)   (3, 4)   (3, 8)    (1, 2)   (2, 10)
+job_13   (3, 9)   (7, 8)   (9, 1)   (3, 7)   (3, 9)    (8, 6)    (8, 1)
+job_14   (8, 1)   (0, 8)   (4, 1)   (9, 7)   (4, 7)    (6, 5)    (7, 4)
+job_15   (8, 3)   (8, 5)   (7, 2)   (8, 3)  (1, 10)    (5, 2)    (9, 6)
+job_16   (2, 4)   (1, 9)   (1, 2)   (9, 1)   (6, 6)    (1, 9)    (6, 6)
+job_17  (1, 10)  (9, 10)   (1, 4)   (9, 4)   (0, 9)    (9, 4)    (4, 9)
+job_18  (9, 10)   (9, 7)  (10, 3)   (4, 6)   (6, 4)    (5, 4)    (4, 7)
+job_19   (1, 6)   (6, 1)  (10, 6)   (3, 4)  (11, 5)  (10, 10)    (5, 4)
+
+
+Solution:
+Machine 0: job_14_task_1  job_8_task_1   job_8_task_2   job_7_task_2   job_17_task_4  job_3_task_6   job_11_task_5  job_11_task_6  
+           [1,9]          [10,17]        [17,19]        [19,26]        [51,60]        [65,66]        [87,91]        [91,94]        
+Machine 1: job_17_task_0  job_7_task_0   job_19_task_0  job_16_task_1  job_3_task_1   job_17_task_2  job_1_task_2   job_16_task_2  job_15_task_4  job_2_task_4   job_4_task_5   job_16_task_5  job_12_task_5  job_11_task_3  job_6_task_4   
+           [0,10]         [10,14]        [14,20]        [20,29]        [29,35]        [35,39]        [39,49]        [49,51]        [51,61]        [61,64]        [64,73]        [73,82]        [82,84]        [84,86]        [86,95]        
+Machine 2: job_16_task_0  job_5_task_2   job_5_task_3   job_10_task_2  job_0_task_2   job_3_task_5   job_12_task_6  
+           [0,4]          [17,21]        [21,26]        [37,38]        [59,60]        [63,65]        [84,94]        
+Machine 3: job_13_task_0  job_2_task_1   job_9_task_0   job_6_task_1   job_6_task_2   job_19_task_3  job_13_task_3  job_3_task_2   job_3_task_3   job_13_task_4  job_12_task_3  job_2_task_5   job_12_task_4  job_5_task_6   
+           [0,9]          [9,16]         [16,18]        [18,23]        [23,24]        [27,31]        [31,38]        [38,42]        [42,52]        [52,61]        [61,65]        [65,74]        [74,82]        [82,85]        
+Machine 4: job_4_task_0   job_4_task_1   job_14_task_2  job_5_task_1   job_18_task_3  job_4_task_3   job_8_task_4   job_2_task_3   job_7_task_4   job_14_task_4  job_10_task_6  job_11_task_1  job_18_task_6  job_17_task_6  
+           [0,9]          [9,15]         [15,16]        [16,17]        [20,26]        [26,32]        [32,41]        [41,44]        [44,47]        [47,54]        [54,63]        [63,73]        [73,80]        [80,89]        
+Machine 5: job_2_task_0   job_5_task_0   job_1_task_1   job_4_task_2   job_10_task_1  job_8_task_5   job_10_task_5  job_19_task_6  job_3_task_4   job_18_task_5  job_15_task_5  
+           [0,5]          [5,10]         [10,13]        [15,25]        [32,37]        [41,43]        [49,53]        [53,57]        [57,63]        [63,67]        [67,69]        
+Machine 6: job_8_task_0   job_11_task_0  job_19_task_1  job_6_task_3   job_5_task_4   job_10_task_3  job_18_task_4  job_1_task_4   job_16_task_4  job_14_task_5  job_16_task_6  
+           [0,10]         [10,11]        [20,21]        [24,28]        [28,36]        [38,45]        [45,49]        [53,60]        [60,66]        [66,71]        [82,88]        
+Machine 7: job_12_task_0  job_12_task_1  job_13_task_1  job_15_task_2  job_4_task_4   job_10_task_4  job_1_task_6   job_14_task_6  job_9_task_2   job_6_task_5   
+           [0,2]          [2,8]          [9,17]         [17,19]        [32,41]        [45,49]        [63,68]        [71,75]        [75,83]        [95,98]        
+Machine 8: job_14_task_0  job_15_task_0  job_3_task_0   job_15_task_1  job_6_task_0   job_7_task_1   job_8_task_3   job_2_task_2   job_7_task_3   job_15_task_3  job_1_task_3   job_12_task_2  job_1_task_5   job_13_task_5  job_13_task_6  
+           [0,1]          [1,4]          [4,5]          [5,10]         [10,12]        [14,17]        [19,29]        [29,39]        [39,43]        [43,46]        [49,53]        [53,60]        [60,63]        [63,69]        [69,70]        
+Machine 9: job_18_task_0  job_18_task_1  job_17_task_1  job_13_task_2  job_10_task_0  job_14_task_3  job_0_task_0   job_17_task_3  job_0_task_1   job_16_task_3  job_0_task_3   job_9_task_1   job_17_task_5  job_8_task_6   job_15_task_6  
+           [0,10]         [10,17]        [17,27]        [27,28]        [28,32]        [32,39]        [39,47]        [47,51]        [51,59]        [59,60]        [60,70]        [70,75]        [75,79]        [79,89]        [89,95]        
+Machine 10: job_18_task_2  job_19_task_2  job_19_task_5  job_7_task_6   job_11_task_2  job_2_task_6   job_0_task_6   job_9_task_4   job_9_task_5   job_9_task_6   
+           [17,20]        [21,27]        [36,46]        [53,62]        [73,77]        [77,82]        [82,85]        [85,93]        [93,95]        [95,99]        
+Machine 11: job_1_task_0   job_19_task_4  job_5_task_5   job_7_task_5   job_0_task_4   job_0_task_5   job_9_task_3   job_11_task_4  job_4_task_6   job_6_task_6   
+           [0,8]          [31,36]        [36,38]        [47,53]        [70,75]        [75,80]        [83,84]        [86,87]        [87,97]        [98,99]        
+Optimal Schedule Length: 99.0
+Total (Unoptimized Schedule Length): 747
+Statistics
+  - conflicts: 0
+  - branches : 0
+  - wall time: 0.035765512s

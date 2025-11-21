@@ -1,0 +1,58 @@
+
+Problem
+         task_0   task_1   task_2    task_3
+job_0    (8, 8)   (8, 6)  (15, 2)    (9, 3)
+job_1    (1, 4)   (9, 2)   (5, 9)    (7, 3)
+job_2   (15, 5)  (18, 5)   (1, 6)    (3, 7)
+job_3   (14, 1)   (5, 3)   (4, 6)  (14, 10)
+job_4   (10, 3)  (16, 8)   (8, 6)    (7, 3)
+job_5   (12, 4)  (18, 2)  (13, 2)   (13, 1)
+job_6    (7, 2)   (8, 4)   (4, 7)    (9, 2)
+job_7  (13, 10)  (18, 7)  (11, 5)    (9, 5)
+
+
+Solution:
+Machine 0: 
+           
+Machine 1: job_1_task_0   job_2_task_2   
+           [0,4]          [11,17]        
+Machine 2: 
+           
+Machine 3: job_2_task_3   
+           [20,27]        
+Machine 4: job_3_task_2   job_6_task_2   
+           [4,10]         [12,19]        
+Machine 5: job_3_task_1   job_1_task_2   
+           [1,4]          [6,15]         
+Machine 6: 
+           
+Machine 7: job_6_task_0   job_1_task_3   job_4_task_3   
+           [0,2]          [15,18]        [24,27]        
+Machine 8: job_0_task_0   job_6_task_1   job_0_task_1   job_4_task_2   
+           [0,8]          [8,12]         [12,18]        [18,24]        
+Machine 9: job_1_task_1   job_6_task_3   job_0_task_3   job_7_task_3   
+           [4,6]          [19,21]        [21,24]        [24,29]        
+Machine 10: job_4_task_0   
+           [0,3]          
+Machine 11: job_7_task_2   
+           [18,23]        
+Machine 12: job_5_task_0   
+           [0,4]          
+Machine 13: job_7_task_0   job_5_task_2   job_5_task_3   
+           [0,10]         [10,12]        [12,13]        
+Machine 14: job_3_task_0   job_3_task_3   
+           [0,1]          [10,20]        
+Machine 15: job_2_task_0   job_0_task_2   
+           [0,5]          [18,20]        
+Machine 16: job_4_task_1   
+           [3,11]         
+Machine 17: 
+           
+Machine 18: job_5_task_1   job_2_task_1   job_7_task_1   
+           [4,6]          [6,11]         [11,18]        
+Optimal Schedule Length: 29.0
+Total (Unoptimized Schedule Length): 151
+Statistics
+  - conflicts: 1
+  - branches : 30
+  - wall time: 0.012550354000000001s
