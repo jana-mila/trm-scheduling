@@ -1,0 +1,69 @@
+# @package _global_
+
+# Project & Run Config
+project_name: "trm-scheduling"
+run_name: "default-v2-${now:%m%d_%H%M}"
+checkpoint_dir: 'checkpoints/'
+resume_from: null
+
+# Core Hyperparameters
+batch_size: 24
+lr: 1e-4
+num_epochs: 1000
+
+# Experiment-specific
+act_loss_weight: 0.01
+epsilon: 0.5
+
+# Data Config
+data:
+  train_problems_dir: 'data/v2/train/1000/problems'
+  train_solutions_dir: 'data/v2/train/1000/solutions'
+  val_problems_dir: 'data/v2/val/problems'
+  val_solutions_dir: 'data/v2/val/solutions'
+  num_workers: 4
+
+# Model Config
+model:
+  trm_model:
+    batch_size: ${batch_size}   # Inherits batch_size from above
+    seq_len: 400                # (MAX_J * MAX_T)
+    puzzle_emb_ndim: 32         # Size of the task ID vector
+    num_puzzle_identifiers: 1
+    vocab_size: 0
+    puzzle_emb_len: 16          # Length of scratchpad prefix
+    
+    H_cycles: 3                 # T=3 in the paper, a good default
+    L_cycles: 6                 # n=6 in the paper, a good default
+    L_layers: 2                 # "tiny" 2-layer model from paper
+    H_layers: 0                 # This is ignored since the TRM simplified the hierarchy
+
+    hidden_size: 256            
+    expansion: 2.0
+    num_heads: 4
+    pos_encodings: "rope"
+
+    halt_max_steps: 16
+    halt_exploration_prob: 0.0
+    no_ACT_continue: True
+
+    forward_dtype: "float32"
+
+# Trainer Config
+trainer:
+  max_epochs: ${num_epochs}
+  accelerator: "auto"
+  devices: 1  # TODO make this dynamic
+  log_every_n_steps: 10
+  enable_checkpointing: True
+
+# Hydra Config (WIP)
+hydra:
+  run:
+    dir: .  # Keep the working directory as the project root
+  output_subdir: null  # Disable saving the .hydra config backup folder
+  job:
+    chdir: False  # CRITICAL: Prevent Hydra from changing the working directory
+  job_logging:
+    root:
+      handlers: [console]  # Send logs to console (which SLURM captures)
