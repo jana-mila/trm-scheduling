@@ -25,7 +25,7 @@ class CustomJobShopDataset(Dataset):
         problem = torch.load(self.problems_files[idx])
         solution = torch.load(self.solutions_files[idx])
         
-        problem = problem.view(-1, 2)
+        problem = problem.view(-1, 4)   # TODO: expose this in the config to change
         solution = solution.view(-1, 1)
         puzzle_identifier = torch.tensor(0, dtype=torch.int32)
         
@@ -36,7 +36,7 @@ class CustomJobShopDataset(Dataset):
         }
 
 def custom_collate_fn(batch, max_seq_len):
-    padded_problems = torch.zeros(len(batch), max_seq_len, 2, dtype=torch.float32)
+    padded_problems = torch.zeros(len(batch), max_seq_len, 4, dtype=torch.float32)  # TODO: expose this in the config 
     padded_solutions = torch.full((len(batch), max_seq_len, 1), -1.0, dtype=torch.float32)
     mask = torch.zeros(len(batch), max_seq_len, 1, dtype=torch.bool)
     

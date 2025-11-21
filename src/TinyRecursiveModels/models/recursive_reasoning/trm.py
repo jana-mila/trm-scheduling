@@ -166,7 +166,7 @@ class TinyRecursiveReasoningModel_ACTV1_Inner(nn.Module):
         # self.lm_head      = CastedLinear(self.config.hidden_size, self.config.vocab_size, bias=False)
         
         # Our input is (MachineID, Duration), so 2 features
-        self.input_proj = CastedLinear(2, self.config.hidden_size, bias=False)
+        self.input_proj = CastedLinear(4, self.config.hidden_size, bias=False)  # TODO expose this in the config to change
 
         # Our output is (StartTime), so 1 feature
         self.lm_head      = CastedLinear(self.config.hidden_size, 1, bias=False)
