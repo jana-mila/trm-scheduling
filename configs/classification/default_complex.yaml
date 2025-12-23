@@ -1,0 +1,20 @@
+# @package _global_
+
+defaults:
+  - default       # This loads everytjing fron config/default.yaml
+  - _self_
+
+# Overrides
+run_name: "default_v3_complex_${now:%m%d_%H%M}"
+
+# Data Config
+data:
+  train_problems_dir: 'data/v3/train_complex/1000/problems'
+  train_solutions_dir: 'data/v3/train_complex/1000/solutions'
+  val_problems_dir: 'data/v3/val_complex/300/problems'
+  val_solutions_dir: 'data/v3/val_complex/300/solutions'
+
+# Model Config
+model:
+  trm_model:    
+    num_output_heads: 3

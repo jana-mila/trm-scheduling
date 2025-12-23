@@ -1,12 +1,12 @@
 # @package _global_
 
 defaults:
-  - default       # This loads everytjing fron config/default.yaml
+  - default_1k_4dim       # This loads everytjing fron config/default.yaml
   - _self_
 
 
 # Overrides
-run_name: "bigger_model_v1_${now:%m%d_%H%M}"
+run_name: "biggermodel_1k_2dim_${now:%m%d_%H%M}"
 batch_size: 4     # Smaller to accomodate for larger batch size
 model:
   trm_model:
