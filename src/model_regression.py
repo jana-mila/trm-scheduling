@@ -5,7 +5,7 @@ import pytorch_lightning as pl
 from omegaconf import DictConfig
 
 # Import your model and helper
-from src.TinyRecursiveModels.models.recursive_reasoning.trm import TinyRecursiveReasoningModel_ACTV1
+from src.TinyRecursiveModels_regression.models.recursive_reasoning.trm import TinyRecursiveReasoningModel_ACTV1
 from src.utils import is_solution_close
 
 class TinyRecursiveModelJobShop(pl.LightningModule):
@@ -48,7 +48,6 @@ class TinyRecursiveModelJobShop(pl.LightningModule):
             total_loss_for_batch += total_step_loss
 
             if torch.all(carry.halted):
-                print(f"Batch halted early at step {step + 1}") # Optional: for debugging
                 break
 
         avg_loss = total_loss_for_batch  / halt_max_steps
