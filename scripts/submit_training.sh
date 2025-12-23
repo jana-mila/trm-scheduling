@@ -16,4 +16,4 @@ echo "Running from $(SLURM_SUBMIT_DIR)"
 
 module load python/3.10
 source .venv/bin/activate
-srun python train.py "$@"
+srun python "@"
