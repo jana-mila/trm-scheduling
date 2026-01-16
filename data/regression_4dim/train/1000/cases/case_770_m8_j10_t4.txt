@@ -1,0 +1,38 @@
+
+Problem
+        task_0  task_1   task_2   task_3
+job_0   (4, 2)  (5, 2)   (6, 2)  (3, 10)
+job_1   (1, 1)  (0, 3)   (3, 1)   (5, 9)
+job_2   (2, 2)  (6, 9)   (7, 2)   (3, 7)
+job_3   (6, 2)  (7, 7)   (2, 9)   (7, 5)
+job_4   (0, 8)  (4, 3)   (4, 2)   (5, 7)
+job_5   (7, 1)  (1, 5)   (7, 2)   (5, 4)
+job_6   (6, 6)  (1, 4)  (5, 10)   (7, 8)
+job_7   (5, 6)  (1, 5)   (5, 8)   (5, 1)
+job_8  (5, 10)  (6, 6)   (3, 5)   (0, 8)
+job_9   (4, 6)  (7, 7)   (7, 8)   (4, 9)
+
+
+Solution:
+Machine 0: job_4_task_0   job_1_task_1   job_8_task_3   
+           [0,8]          [8,11]         [28,36]        
+Machine 1: job_1_task_0   job_5_task_1   job_6_task_1   job_7_task_1   
+           [0,1]          [1,6]          [6,10]         [16,21]        
+Machine 2: job_2_task_0   job_3_task_2   
+           [0,2]          [20,29]        
+Machine 3: job_1_task_2   job_8_task_2   job_0_task_3   job_2_task_3   
+           [11,12]        [23,28]        [30,40]        [40,47]        
+Machine 4: job_9_task_0   job_0_task_0   job_4_task_1   job_4_task_2   job_9_task_3   
+           [0,6]          [6,8]          [8,11]         [11,13]        [28,37]        
+Machine 5: job_8_task_0   job_7_task_0   job_6_task_2   job_0_task_1   job_7_task_2   job_1_task_3   job_4_task_3   job_5_task_3   job_7_task_3   
+           [0,10]         [10,16]        [16,26]        [26,28]        [28,36]        [36,45]        [45,52]        [52,56]        [56,57]        
+Machine 6: job_6_task_0   job_3_task_0   job_2_task_1   job_8_task_1   job_0_task_2   
+           [0,6]          [6,8]          [8,17]         [17,23]        [28,30]        
+Machine 7: job_5_task_0   job_9_task_1   job_3_task_1   job_9_task_2   job_2_task_2   job_6_task_3   job_5_task_2   job_3_task_3   
+           [0,1]          [6,13]         [13,20]        [20,28]        [28,30]        [30,38]        [38,40]        [40,45]        
+Optimal Schedule Length: 57.0
+Total (Unoptimized Schedule Length): 212
+Statistics
+  - conflicts: 0
+  - branches : 41
+  - wall time: 0.025533743s
