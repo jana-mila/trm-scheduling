@@ -4,8 +4,7 @@ import torch.optim as optim
 import pytorch_lightning as pl
 from omegaconf import DictConfig
 
-# Import your model and helper
-from src.TinyRecursiveModels_regression.models.recursive_reasoning.trm import TinyRecursiveReasoningModel_ACTV1
+from src.regression.TinyRecursiveModels.models.recursive_reasoning.trm import TinyRecursiveReasoningModel_ACTV1
 from src.utils import is_solution_close
 
 class TinyRecursiveModelJobShop(pl.LightningModule):

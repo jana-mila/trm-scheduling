@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import Dataset, DataLoader
 from pathlib import Path
 import pytorch_lightning as pl
-from omegaconf import DictConfig # Import for type hinting the config
+from omegaconf import DictConfig
 
 class CustomJobShopDataset(Dataset):
     # Added input_feature_dim to __init__
@@ -33,10 +33,6 @@ class CustomJobShopDataset(Dataset):
         problem = problem.view(-1, input_feature_dim)
         solution = solution.view(-1, output_feature_dim) # Solution/Label dimension (StartTime) is fixed at 1
 
-        # # Use the variable input_feature_dim for reshaping
-        # problem = problem.view(-1, self.input_feature_dim)
-        # solution = solution.view(-1, ) # Solution/Label dimension (StartTime) is fixed at 1
-        
         puzzle_identifier = torch.tensor(0, dtype=torch.int32)
         
         return {
@@ -71,8 +67,6 @@ def custom_collate_fn(batch, max_seq_len, input_feature_dim: int):
         'mask': mask,
         'puzzle_identifiers': torch.stack(identifiers)
     }
-
-# --- 3. JobShopDataModule (Propagates input_feature_dim) ---
 
 class JobShopDataModule(pl.LightningDataModule):
     # Get config as DictConfig or dict, and pass input_feature_dim separately

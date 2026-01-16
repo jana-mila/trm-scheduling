@@ -4,7 +4,7 @@ import torch.optim as optim
 import pytorch_lightning as pl
 from omegaconf import DictConfig
 
-from src.TinyRecursiveModels_classification.models.recursive_reasoning.trm import TinyRecursiveReasoningModel_ACTV1
+from src.classification.TinyRecursiveModels.models.recursive_reasoning.trm import TinyRecursiveReasoningModel_ACTV1
 
 class TinyRecursiveModelJobShop(pl.LightningModule):
     def __init__(self, config: DictConfig, lr: float, act_loss_weight: float):
