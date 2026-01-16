@@ -1,0 +1,34 @@
+
+Problem (Version 3)
+    0  1  2   3
+0   0  0  4  10
+1   0  1  3  10
+2   0  2  4   4
+3   0  3  3   9
+4   1  0  0   1
+5   1  1  0   8
+6   1  2  0   7
+7   1  3  2   2
+8   2  0  3   5
+9   2  1  0   8
+10  2  2  4   6
+11  2  3  3  10
+
+
+Solution:
+Machine 0: job_1_task_0   job_2_task_1   job_1_task_1   job_1_task_2   
+           [0,1]          [5,13]         [13,21]        [21,28]        
+Machine 1: 
+           
+Machine 2: job_1_task_3   
+           [36,38]        
+Machine 3: job_2_task_0   job_0_task_1   job_2_task_3   job_0_task_3   
+           [0,5]          [10,20]        [20,30]        [30,39]        
+Machine 4: job_0_task_0   job_2_task_2   job_0_task_2   
+           [0,10]         [13,19]        [20,24]        
+Optimal Schedule Length: 39.0
+Total (Unoptimized Schedule Length): 80
+Statistics
+  - conflicts: 4
+  - branches : 26
+  - wall time: 0.017426608s

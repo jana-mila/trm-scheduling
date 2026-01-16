@@ -1,0 +1,41 @@
+
+Problem (Version 3)
+    0  1  2   3
+0   0  0  1   5
+1   0  1  0   5
+2   0  2  0   2
+3   0  3  1   6
+4   0  4  1   6
+5   1  0  1   4
+6   1  1  1   4
+7   1  2  1   1
+8   1  3  1   9
+9   1  4  1  10
+10  2  0  0   8
+11  2  1  0   9
+12  2  2  1   8
+13  2  3  0   1
+14  2  4  0   3
+15  3  0  0   8
+16  3  1  0  10
+17  3  2  1   7
+18  3  3  1   2
+19  3  4  1   8
+20  4  0  1   8
+21  4  1  1  10
+22  4  2  1   2
+23  4  3  1   1
+24  4  4  1   6
+
+
+Solution:
+Machine 0: job_3_task_0   job_2_task_0   job_3_task_1   job_2_task_1   job_0_task_1   job_0_task_2   job_2_task_3   job_2_task_4   
+           [0,8]          [8,16]         [16,26]        [26,35]        [35,40]        [40,42]        [62,63]        [63,66]        
+Machine 1: job_1_task_0   job_4_task_0   job_1_task_1   job_0_task_0   job_1_task_2   job_1_task_3   job_4_task_1   job_3_task_2   job_0_task_3   job_2_task_2   job_3_task_3   job_1_task_4   job_4_task_2   job_3_task_4   job_4_task_3   job_0_task_4   job_4_task_4   
+           [0,4]          [4,12]         [12,16]        [16,21]        [21,22]        [22,31]        [31,41]        [41,48]        [48,54]        [54,62]        [62,64]        [64,74]        [74,76]        [76,84]        [84,85]        [85,91]        [91,97]        
+Optimal Schedule Length: 97.0
+Total (Unoptimized Schedule Length): 143
+Statistics
+  - conflicts: 19
+  - branches : 298
+  - wall time: 0.017948689s

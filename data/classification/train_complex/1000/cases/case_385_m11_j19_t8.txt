@@ -1,0 +1,47 @@
+
+Problem (Version 3)
+      0  1   2   3
+0     0  0   8  10
+1     0  1   6   2
+2     0  2   9   1
+3     0  3   1   9
+4     0  4  10   3
+..   .. ..  ..  ..
+147  18  3  10   5
+148  18  4   3  10
+149  18  5   5   1
+150  18  6   3   6
+151  18  7   3   8
+
+[152 rows x 4 columns]
+
+
+Solution:
+Machine 0: job_6_task_0   job_11_task_2  job_18_task_1  job_11_task_5  job_18_task_2  job_11_task_6  job_16_task_3  job_0_task_7   job_15_task_6  job_3_task_6   job_10_task_7  
+           [0,6]          [18,20]        [36,38]        [38,48]        [48,54]        [54,59]        [67,77]        [77,82]        [82,85]        [86,96]        [96,100]       
+Machine 1: job_2_task_0   job_8_task_1   job_4_task_0   job_0_task_3   job_13_task_5  job_5_task_6   job_7_task_7   job_12_task_5  job_2_task_7   job_10_task_6  job_1_task_7   job_16_task_7  
+           [0,9]          [9,16]         [16,19]        [39,48]        [48,57]        [57,63]        [66,76]        [76,78]        [78,87]        [87,90]        [90,98]        [98,103]       
+Machine 2: job_9_task_0   job_3_task_0   job_11_task_1  job_5_task_5   job_14_task_5  job_14_task_6  job_11_task_7  job_0_task_6   job_12_task_6  job_6_task_6   job_16_task_6  
+           [0,8]          [8,10]         [10,18]        [46,49]        [59,61]        [61,68]        [68,69]        [72,75]        [78,87]        [87,92]        [96,98]        
+Machine 3: job_17_task_0  job_5_task_1   job_12_task_0  job_2_task_2   job_15_task_1  job_18_task_0  job_12_task_1  job_3_task_2   job_5_task_7   job_18_task_4  job_12_task_4  job_18_task_6  job_18_task_7  
+           [0,2]          [5,8]          [9,14]         [14,20]        [20,27]        [27,36]        [36,44]        [44,49]        [63,65]        [65,75]        [75,76]        [82,88]        [88,96]        
+Machine 4: job_13_task_0  job_14_task_0  job_10_task_1  job_11_task_3  job_15_task_2  job_14_task_2  job_8_task_4   job_5_task_4   job_9_task_6   job_9_task_7   job_16_task_2  job_13_task_6  job_3_task_4   job_10_task_5  job_1_task_6   job_17_task_6  job_16_task_4  job_15_task_7  job_4_task_7   
+           [0,2]          [2,7]          [7,12]         [20,29]        [29,36]        [38,39]        [40,42]        [43,46]        [46,48]        [48,58]        [58,67]        [67,77]        [77,79]        [79,82]        [82,88]        [88,90]        [90,92]        [92,101]       [102,103]      
+Machine 5: job_11_task_0  job_9_task_1   job_5_task_2   job_8_task_2   job_4_task_3   job_7_task_4   job_2_task_5   job_15_task_4  job_15_task_5  job_0_task_5   job_17_task_3  job_18_task_5  job_17_task_5  job_6_task_7   
+           [0,1]          [8,10]         [10,20]        [20,30]        [32,40]        [40,49]        [49,58]        [58,60]        [60,68]        [68,72]        [72,81]        [81,82]        [85,87]        [92,97]        
+Machine 6: job_7_task_0   job_9_task_2   job_6_task_2   job_4_task_1   job_0_task_1   job_4_task_2   job_7_task_3   job_13_task_2  job_9_task_5   job_13_task_4  job_14_task_3  job_7_task_5   job_14_task_4  job_6_task_4   job_8_task_6   job_16_task_5  job_8_task_7   job_3_task_7   
+           [0,7]          [10,18]        [18,20]        [20,28]        [28,30]        [30,32]        [32,34]        [34,38]        [38,46]        [46,47]        [47,50]        [50,52]        [52,59]        [59,69]        [84,94]        [94,96]        [96,101]       [101,103]      
+Machine 7: job_8_task_0   job_15_task_0  job_2_task_1   job_1_task_1   job_16_task_0  job_2_task_3   job_2_task_4   job_16_task_1  job_17_task_2  job_12_task_3  job_1_task_5   job_8_task_5   job_17_task_4  job_4_task_5   
+           [0,6]          [6,12]         [12,13]        [13,20]        [20,30]        [30,40]        [40,49]        [49,58]        [58,67]        [67,73]        [73,82]        [82,84]        [84,85]        [85,94]        
+Machine 8: job_0_task_0   job_7_task_1   job_13_task_1  job_7_task_2   job_1_task_3   job_14_task_1  job_5_task_3   job_10_task_2  job_6_task_3   job_7_task_6   job_2_task_6   job_6_task_5   job_13_task_7  job_3_task_5   job_4_task_6   
+           [0,10]         [10,20]        [20,29]        [29,32]        [32,34]        [34,38]        [38,43]        [43,50]        [50,56]        [56,66]        [66,76]        [76,78]        [78,79]        [79,86]        [94,102]       
+Machine 9: job_10_task_0  job_17_task_1  job_3_task_1   job_9_task_3   job_9_task_4   job_11_task_4  job_0_task_2   job_13_task_3  job_15_task_3  job_1_task_4   job_4_task_4   job_3_task_3   job_10_task_4  job_17_task_7  
+           [0,1]          [2,9]          [10,15]        [18,28]        [28,29]        [29,38]        [38,39]        [39,44]        [44,52]        [52,57]        [57,64]        [64,65]        [65,67]        [90,96]        
+Machine 10: job_1_task_0   job_5_task_0   job_6_task_1   job_1_task_2   job_8_task_3   job_12_task_2  job_0_task_4   job_10_task_3  job_18_task_3  job_14_task_7  job_12_task_7  
+           [0,1]          [1,5]          [6,14]         [20,30]        [32,40]        [44,47]        [48,51]        [51,59]        [59,64]        [68,75]        [87,97]        
+Optimal Schedule Length: 103.0
+Total (Unoptimized Schedule Length): 843
+Statistics
+  - conflicts: 0
+  - branches : 0
+  - wall time: 1.0555389130000001s

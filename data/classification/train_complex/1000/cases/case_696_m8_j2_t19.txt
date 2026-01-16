@@ -1,0 +1,66 @@
+
+Problem (Version 3)
+    0   1  2   3
+0   0   0  7   9
+1   0   1  4   5
+2   0   2  6   9
+3   0   3  2   4
+4   0   4  5   2
+5   0   5  3   6
+6   0   6  2   4
+7   0   7  1   8
+8   0   8  1   2
+9   0   9  6   5
+10  0  10  7   1
+11  0  11  2   1
+12  0  12  7   3
+13  0  13  4   1
+14  0  14  0   4
+15  0  15  7   6
+16  0  16  1  10
+17  0  17  6   8
+18  0  18  7   3
+19  1   0  4   5
+20  1   1  6   5
+21  1   2  3   5
+22  1   3  7   8
+23  1   4  4   2
+24  1   5  7   3
+25  1   6  6   9
+26  1   7  4   2
+27  1   8  6  10
+28  1   9  0   9
+29  1  10  4   5
+30  1  11  5   5
+31  1  12  1   2
+32  1  13  5   8
+33  1  14  7   2
+34  1  15  5   8
+35  1  16  5   3
+36  1  17  5   9
+37  1  18  4   6
+
+
+Solution:
+Machine 0: job_1_task_9   job_0_task_14  
+           [49,58]        [64,68]        
+Machine 1: job_0_task_7   job_0_task_8   job_1_task_12  job_0_task_16  
+           [39,47]        [47,49]        [68,70]        [74,84]        
+Machine 2: job_0_task_3   job_0_task_6   job_0_task_11  
+           [23,27]        [35,39]        [55,56]        
+Machine 3: job_1_task_2   job_0_task_5   
+           [10,15]        [29,35]        
+Machine 4: job_1_task_0   job_0_task_1   job_1_task_4   job_1_task_7   job_1_task_10  job_0_task_13  job_1_task_18  
+           [0,5]          [9,14]         [23,25]        [37,39]        [58,63]        [63,64]        [100,106]      
+Machine 5: job_0_task_4   job_1_task_11  job_1_task_13  job_1_task_15  job_1_task_16  job_1_task_17  
+           [27,29]        [63,68]        [70,78]        [80,88]        [88,91]        [91,100]       
+Machine 6: job_1_task_1   job_0_task_2   job_1_task_6   job_1_task_8   job_0_task_9   job_0_task_17  
+           [5,10]         [14,23]        [28,37]        [39,49]        [49,54]        [84,92]        
+Machine 7: job_0_task_0   job_1_task_3   job_1_task_5   job_0_task_10  job_0_task_12  job_0_task_15  job_1_task_14  job_0_task_18  
+           [0,9]          [15,23]        [25,28]        [54,55]        [56,59]        [68,74]        [78,80]        [92,95]        
+Optimal Schedule Length: 106.0
+Total (Unoptimized Schedule Length): 197
+Statistics
+  - conflicts: 0
+  - branches : 39
+  - wall time: 0.06362289s

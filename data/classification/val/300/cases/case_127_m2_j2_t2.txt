@@ -1,0 +1,20 @@
+
+Problem (Version 3)
+   0  1  2  3
+0  0  0  0  2
+1  0  1  1  1
+2  1  0  0  2
+3  1  1  1  1
+
+
+Solution:
+Machine 0: job_0_task_0   job_1_task_0   
+           [0,2]          [2,4]          
+Machine 1: job_0_task_1   job_1_task_1   
+           [2,3]          [4,5]          
+Optimal Schedule Length: 5.0
+Total (Unoptimized Schedule Length): 6
+Statistics
+  - conflicts: 0
+  - branches : 0
+  - wall time: 0.013985880000000001s

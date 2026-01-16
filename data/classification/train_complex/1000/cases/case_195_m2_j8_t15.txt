@@ -1,0 +1,29 @@
+
+Problem (Version 3)
+     0   1  2  3
+0    0   0  1  9
+1    0   1  1  3
+2    0   2  1  4
+3    0   3  0  9
+4    0   4  0  4
+..  ..  .. .. ..
+115  7  10  0  6
+116  7  11  0  6
+117  7  12  1  5
+118  7  13  0  5
+119  7  14  1  6
+
+[120 rows x 4 columns]
+
+
+Solution:
+Machine 0: job_7_task_0   job_4_task_0   job_4_task_1   job_1_task_1   job_0_task_3   job_5_task_1   job_0_task_4   job_0_task_5   job_5_task_2   job_7_task_2   job_3_task_5   job_4_task_2   job_6_task_1   job_7_task_3   job_5_task_4   job_0_task_6   job_4_task_4   job_2_task_2   job_3_task_7   job_4_task_5   job_6_task_3   job_7_task_4   job_0_task_7   job_2_task_3   job_1_task_4   job_1_task_5   job_5_task_6   job_4_task_6   job_0_task_8   job_2_task_4   job_6_task_6   job_7_task_7   job_2_task_5   job_1_task_8   job_2_task_7   job_6_task_7   job_7_task_8   job_1_task_9   job_2_task_9   job_5_task_9   job_7_task_9   job_1_task_10  job_2_task_10  job_0_task_10  job_6_task_9   job_7_task_10  job_5_task_10  job_6_task_10  job_3_task_11  job_7_task_11  job_3_task_12  job_1_task_11  job_0_task_11  job_6_task_11  job_1_task_13  job_0_task_12  job_2_task_12  job_7_task_13  job_2_task_13  job_1_task_14  job_6_task_13  job_6_task_14  
+           [0,8]          [8,10]         [10,14]        [14,24]        [24,33]        [33,43]        [43,47]        [47,56]        [56,58]        [58,63]        [63,71]        [71,72]        [72,79]        [79,86]        [86,90]        [90,96]        [96,99]        [99,102]       [102,111]      [111,121]      [121,124]      [124,128]      [128,137]      [137,147]      [147,149]      [149,157]      [157,162]      [162,168]      [168,177]      [177,183]      [183,190]      [190,197]      [197,199]      [199,204]      [204,206]      [206,208]      [208,211]      [211,214]      [214,216]      [216,221]      [221,223]      [223,232]      [232,242]      [242,252]      [252,256]      [256,262]      [262,271]      [271,280]      [280,281]      [281,287]      [287,296]      [296,303]      [303,311]      [311,318]      [318,323]      [323,324]      [324,326]      [326,331]      [331,335]      [335,342]      [342,343]      [343,347]      
+Machine 1: job_0_task_0   job_0_task_1   job_1_task_0   job_3_task_0   job_0_task_2   job_5_task_0   job_3_task_1   job_3_task_2   job_3_task_3   job_3_task_4   job_7_task_1   job_1_task_2   job_6_task_0   job_5_task_3   job_2_task_0   job_4_task_3   job_2_task_1   job_1_task_3   job_3_task_6   job_6_task_2   job_5_task_5   job_3_task_8   job_3_task_9   job_6_task_4   job_7_task_5   job_6_task_5   job_7_task_6   job_3_task_10  job_1_task_6   job_1_task_7   job_5_task_7   job_4_task_7   job_5_task_8   job_0_task_9   job_4_task_8   job_4_task_9   job_4_task_10  job_4_task_11  job_2_task_6   job_4_task_12  job_4_task_13  job_2_task_8   job_6_task_8   job_4_task_14  job_2_task_11  job_5_task_11  job_5_task_12  job_5_task_13  job_5_task_14  job_7_task_12  job_3_task_13  job_3_task_14  job_1_task_12  job_6_task_12  job_0_task_13  job_0_task_14  job_7_task_14  job_2_task_14  
+           [0,9]          [9,12]         [12,14]        [14,19]        [19,23]        [23,33]        [33,37]        [37,38]        [38,48]        [48,55]        [55,57]        [57,65]        [65,67]        [67,73]        [73,76]        [76,82]        [82,87]        [87,94]        [94,97]        [97,100]       [100,107]      [111,120]      [120,128]      [128,130]      [130,135]      [135,143]      [143,147]      [147,152]      [157,158]      [158,161]      [162,169]      [169,174]      [174,179]      [179,185]      [185,188]      [188,190]      [190,194]      [194,200]      [200,201]      [201,205]      [205,210]      [210,211]      [211,214]      [214,223]      [242,250]      [271,273]      [273,283]      [283,286]      [286,288]      [288,293]      [296,300]      [300,309]      [309,310]      [318,321]      [324,328]      [328,334]      [334,340]      [340,345]      
+Optimal Schedule Length: 347.0
+Total (Unoptimized Schedule Length): 628
+Statistics
+  - conflicts: 0
+  - branches : 107
+  - wall time: 2.1578851500000003s
