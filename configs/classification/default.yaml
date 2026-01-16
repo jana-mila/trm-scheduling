@@ -16,11 +16,11 @@ act_loss_weight: 0.01
 
 # Data Config
 data:
-  train_problems_dir: 'data/v3/train/1000/problems'
-  train_solutions_dir: 'data/v3/train/1000/solutions'
-  val_problems_dir: 'data/v3/val/300/problems'
-  val_solutions_dir: 'data/v3/val/300/solutions'
-  num_workers: 4
+  train_problems_dir: 'data/classification/train/1000/problems'
+  train_solutions_dir: 'data/classification/train/1000/solutions'
+  val_problems_dir: 'data/classification/val/300/problems'
+  val_solutions_dir: 'data/classification/val/300/solutions'
+  num_workers: 2
 
 # Model Config
 model:
