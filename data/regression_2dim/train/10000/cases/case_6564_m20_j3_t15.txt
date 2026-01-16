@@ -1,0 +1,55 @@
+
+Problem
+        task_0    task_1   task_2   task_3    task_4   task_5   task_6   task_7   task_8   task_9  task_10  task_11   task_12  task_13  task_14
+job_0  (16, 4)  (13, 10)   (9, 7)  (11, 6)  (12, 10)   (3, 4)   (3, 9)  (15, 2)  (11, 8)  (10, 3)  (14, 4)   (0, 1)  (12, 10)   (1, 6)   (2, 5)
+job_1   (6, 1)   (12, 5)  (19, 2)   (8, 3)   (19, 7)   (3, 5)  (16, 3)  (12, 5)  (10, 5)  (14, 2)  (15, 5)  (12, 3)    (5, 6)  (10, 4)   (0, 6)
+job_2  (10, 2)    (3, 2)   (5, 4)  (19, 4)    (0, 5)  (5, 10)  (13, 1)  (10, 1)  (16, 6)  (11, 8)   (5, 2)  (13, 5)   (16, 9)  (4, 10)  (19, 1)
+
+
+Solution:
+Machine 0: job_2_task_4   job_0_task_11  job_1_task_14  
+           [12,17]        [67,68]        [70,76]        
+Machine 1: job_0_task_13  
+           [78,84]        
+Machine 2: job_0_task_14  
+           [84,89]        
+Machine 3: job_2_task_1   job_1_task_5   job_0_task_5   job_0_task_6   
+           [2,4]          [19,24]        [37,41]        [41,50]        
+Machine 4: job_2_task_13  
+           [59,69]        
+Machine 5: job_2_task_2   job_2_task_5   job_2_task_10  job_1_task_12  
+           [4,8]          [17,27]        [43,45]        [60,66]        
+Machine 6: job_1_task_0   
+           [0,1]          
+Machine 7: 
+           
+Machine 8: job_1_task_3   
+           [8,11]         
+Machine 9: job_0_task_2   
+           [14,21]        
+Machine 10: job_2_task_0   job_2_task_7   job_1_task_8   job_0_task_9   job_1_task_13  
+           [0,2]          [28,29]        [42,47]        [60,63]        [66,70]        
+Machine 11: job_0_task_3   job_2_task_9   job_0_task_8   
+           [21,27]        [35,43]        [52,60]        
+Machine 12: job_1_task_1   job_0_task_4   job_1_task_7   job_1_task_11  job_0_task_12  
+           [1,6]          [27,37]        [37,42]        [57,60]        [68,78]        
+Machine 13: job_0_task_1   job_2_task_6   job_2_task_11  
+           [4,14]         [27,28]        [45,50]        
+Machine 14: job_1_task_9   job_0_task_10  
+           [47,49]        [63,67]        
+Machine 15: job_0_task_7   job_1_task_10  
+           [50,52]        [52,57]        
+Machine 16: job_0_task_0   job_1_task_6   job_2_task_8   job_2_task_12  
+           [0,4]          [24,27]        [29,35]        [50,59]        
+Machine 17: 
+           
+Machine 18: 
+           
+Machine 19: job_1_task_2   job_2_task_3   job_1_task_4   job_2_task_14  
+           [6,8]          [8,12]         [12,19]        [69,70]        
+Optimal Schedule Length: 89.0
+Total (Unoptimized Schedule Length): 221
+Statistics
+  - conflicts: 0
+  - branches : 165
+  - wall time: 0.011608856s

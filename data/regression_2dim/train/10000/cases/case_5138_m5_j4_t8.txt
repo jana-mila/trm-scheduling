@@ -1,0 +1,26 @@
+
+Problem
+        task_0  task_1   task_2   task_3  task_4  task_5  task_6  task_7
+job_0  (1, 10)  (4, 4)   (0, 5)   (4, 5)  (2, 7)  (0, 4)  (2, 4)  (1, 1)
+job_1   (4, 4)  (4, 9)  (0, 10)   (2, 3)  (0, 2)  (1, 2)  (3, 3)  (0, 7)
+job_2   (1, 9)  (4, 5)   (0, 3)   (0, 2)  (0, 7)  (3, 2)  (1, 5)  (4, 8)
+job_3   (4, 8)  (3, 1)  (0, 10)  (1, 10)  (1, 3)  (4, 8)  (2, 2)  (1, 4)
+
+
+Solution:
+Machine 0: job_3_task_2   job_0_task_2   job_2_task_2   job_2_task_3   job_2_task_4   job_1_task_2   job_1_task_4   job_0_task_5   job_1_task_7   
+           [9,19]         [19,24]        [24,27]        [27,29]        [29,36]        [36,46]        [49,51]        [51,55]        [56,63]        
+Machine 1: job_0_task_0   job_2_task_0   job_3_task_3   job_3_task_4   job_2_task_6   job_1_task_5   job_3_task_7   job_0_task_7   
+           [0,10]         [10,19]        [19,29]        [29,32]        [46,51]        [51,53]        [58,62]        [62,63]        
+Machine 2: job_0_task_4   job_1_task_3   job_3_task_6   job_0_task_6   
+           [39,46]        [46,49]        [55,57]        [57,61]        
+Machine 3: job_3_task_1   job_2_task_5   job_1_task_6   
+           [8,9]          [44,46]        [53,56]        
+Machine 4: job_3_task_0   job_1_task_0   job_0_task_1   job_2_task_1   job_1_task_1   job_0_task_3   job_3_task_5   job_2_task_7   
+           [0,8]          [8,12]         [12,16]        [19,24]        [24,33]        [34,39]        [47,55]        [55,63]        
+Optimal Schedule Length: 63.0
+Total (Unoptimized Schedule Length): 167
+Statistics
+  - conflicts: 0
+  - branches : 0
+  - wall time: 0.022413181s

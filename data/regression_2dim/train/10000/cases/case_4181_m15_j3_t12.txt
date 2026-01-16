@@ -1,0 +1,45 @@
+
+Problem
+        task_0   task_1   task_2   task_3   task_4  task_5   task_6  task_7  task_8   task_9  task_10  task_11
+job_0   (9, 7)  (11, 6)  (13, 3)   (3, 9)   (7, 2)  (5, 8)  (13, 4)  (9, 5)  (7, 3)   (0, 7)  (12, 1)   (0, 1)
+job_1   (3, 6)   (0, 4)  (6, 10)   (6, 8)   (4, 6)  (6, 5)   (0, 9)  (0, 9)  (6, 2)  (14, 7)   (5, 2)   (6, 5)
+job_2  (5, 10)  (12, 7)   (6, 2)  (3, 10)  (3, 10)  (7, 4)   (0, 8)  (9, 5)  (6, 6)   (7, 9)   (2, 1)  (3, 10)
+
+
+Solution:
+Machine 0: job_1_task_1   job_2_task_6   job_1_task_6   job_1_task_7   job_0_task_9   job_0_task_11  
+           [6,10]         [43,51]        [51,60]        [60,69]        [74,81]        [82,83]        
+Machine 1: 
+           
+Machine 2: job_2_task_10  
+           [71,72]        
+Machine 3: job_1_task_0   job_2_task_3   job_2_task_4   job_0_task_3   job_2_task_11  
+           [0,6]          [19,29]        [29,39]        [39,48]        [72,82]        
+Machine 4: job_1_task_4   
+           [37,43]        
+Machine 5: job_2_task_0   job_0_task_5   job_1_task_10  
+           [0,10]         [50,58]        [78,80]        
+Machine 6: job_2_task_2   job_1_task_2   job_1_task_3   job_1_task_5   job_2_task_8   job_1_task_8   job_1_task_11  
+           [17,19]        [19,29]        [29,37]        [43,48]        [56,62]        [69,71]        [80,85]        
+Machine 7: job_2_task_5   job_0_task_4   job_2_task_9   job_0_task_8   
+           [39,43]        [48,50]        [62,71]        [71,74]        
+Machine 8: 
+           
+Machine 9: job_0_task_0   job_2_task_7   job_0_task_7   
+           [0,7]          [51,56]        [62,67]        
+Machine 10: 
+           
+Machine 11: job_0_task_1   
+           [7,13]         
+Machine 12: job_2_task_1   job_0_task_10  
+           [10,17]        [81,82]        
+Machine 13: job_0_task_2   job_0_task_6   
+           [13,16]        [58,62]        
+Machine 14: job_1_task_9   
+           [71,78]        
+Optimal Schedule Length: 85.0
+Total (Unoptimized Schedule Length): 211
+Statistics
+  - conflicts: 0
+  - branches : 264
+  - wall time: 0.015817031000000002s
